@@ -1,0 +1,39 @@
+AllCops:
+  Include:
+    - 'app/**/*.rb'
+    - 'config/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'lib/**/*.rake'
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/**/*'
+    - 'db/*.rb'
+    - 'bin/**/*'
+  RunRailsCops: false
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+
+Style/Documentation:
+  Exclude:
+    - 'lib/**/version.rb'
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+Style/BarePercentLiterals:
+  Enabled: false
+
+Style/CommentAnnotation:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
