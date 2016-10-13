@@ -9,8 +9,6 @@ AllCops:
     - 'spec/**/*'
     - 'db/*.rb'
     - 'bin/**/*'
-  Rails:
-    Enabled: false
   DisplayCopNames: true
   StyleGuideCopsOnly: false
 
@@ -37,4 +35,7 @@ Style/RaiseArgs:
   Enabled: false
 
 Style/StringLiterals:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
