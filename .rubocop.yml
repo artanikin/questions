@@ -9,7 +9,8 @@ AllCops:
     - 'spec/**/*'
     - 'db/*.rb'
     - 'bin/**/*'
-  RunRailsCops: false
+  Rails:
+    Enabled: false
   DisplayCopNames: true
   StyleGuideCopsOnly: false
 
