@@ -19,6 +19,10 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 
+group :test do
+  gem 'shoulda-matchers', '~> 3.1'
+end
+
 group :development do
   gem 'web-console'
   gem 'listen', '~> 3.0.5'
