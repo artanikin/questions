@@ -12,10 +12,6 @@ AllCops:
   DisplayCopNames: true
   StyleGuideCopsOnly: false
 
-Style/Documentation:
-  Exclude:
-    - 'lib/**/version.rb'
-
 Metrics/LineLength:
   Max: 100
 
@@ -34,8 +30,8 @@ Style/CommentAnnotation:
 Style/RaiseArgs:
   Enabled: false
 
-Style/StringLiterals:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
+Style/Documentation:
   Enabled: false
