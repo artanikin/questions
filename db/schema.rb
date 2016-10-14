@@ -30,4 +30,5 @@ ActiveRecord::Schema.define(version: 20161013184141) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "answers", "questions"
 end
