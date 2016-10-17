@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User create question', %q{
+feature 'User create question', %(
   To get answers to questsions
   As an user
   I can ask a question
-} do
+) do
 
   scenario 'User can see the questions' do
     visit questions_path
