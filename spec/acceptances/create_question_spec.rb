@@ -6,17 +6,17 @@ feature 'Create question', %(
   I can to able to ask a question
 ) do
 
+  given(:user) { create(:user) }
+
   scenario 'User can see the questions' do
     visit questions_path
     expect(current_path).to eq questions_path
   end
 
   scenario 'Authenticated user creates question' do
-    User.create!(email: 'user@example.com', password: 'pass123')
-
     visit new_user_session_path
-    fill_in 'Email', with: 'user@example.com'
-    fill_in 'Password', with: 'pass123'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_on 'Log in'
 
     visit questions_path

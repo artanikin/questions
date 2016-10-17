@@ -6,12 +6,12 @@ feature 'User sign in', %(
   I want to be able to sign in
 ) do
 
-  scenario 'Registered user try to sign in' do
-    User.create!(email: 'user@example.com', password: 'pass123')
+  given(:user) { create(:user) }
 
+  scenario 'Registered user try to sign in' do
     visit new_user_session_path
-    fill_in 'Email', with: 'user@example.com'
-    fill_in 'Password', with: 'pass123'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_on 'Log in'
 
     expect(page).to have_content 'Signed in successfully.'
@@ -20,8 +20,8 @@ feature 'User sign in', %(
 
   scenario 'Non-registered user try to sign in' do
     visit new_user_session_path
-    fill_in 'Email', with: 'user@example.com'
-    fill_in 'Password', with: 'pass123'
+    fill_in 'Email', with: 'wrong@example.com'
+    fill_in 'Password', with: 'pass1234567'
     click_on 'Log in'
 
     expect(page).to have_content 'Invalid Email or password.'
@@ -29,11 +29,9 @@ feature 'User sign in', %(
   end
 
   scenario 'Authorized user can sign out' do
-    User.create!(email: 'user@example.com', password: 'pass123')
-
     visit new_user_session_path
-    fill_in 'Email', with: 'user@example.com'
-    fill_in 'Password', with: 'pass123'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
     click_on 'Log in'
 
     click_on 'Sign out'
