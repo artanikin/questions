@@ -1,4 +1,8 @@
 class QuestionsController < ApplicationController
+  def index
+    @questions = Question.all
+  end
+
   def show
     @question = Question.find(params[:id])
   end
@@ -10,7 +14,8 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     if @question.save
-      redirect_to question_path(@question)
+      flash[:notice] = 'Your question successfully created'
+      redirect_to @question
     else
       render :new
     end
