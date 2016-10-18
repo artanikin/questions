@@ -23,7 +23,7 @@ feature 'Delete answer', %(
     click_on 'Remove answer', match: :first
 
     expect(current_path).to eq question_path(question)
-    expect(page).to have_content('Remove answer', count: 4)
+    expect(page).to have_content('Remove answer', count: 1)
     expect(page).to have_content 'Your answer successfully removed'
   end
 
@@ -34,7 +34,7 @@ feature 'Delete answer', %(
 
     visit question_path(question)
 
-    expect(page).to have_content('Answer placeholder', count: 5)
+    expect(page).to have_content('Answer placeholder', count: 2)
     expect(page).to_not have_content 'Remove answer'
   end
 end

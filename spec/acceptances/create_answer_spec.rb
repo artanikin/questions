@@ -14,7 +14,7 @@ feature 'User create answer', %(
 
     expect(current_path).to eq question_path(question)
     expect(page).to have_content question.title
-    expect(page).to have_content('Answer placeholder', count: 5)
+    expect(page).to have_content('Answer placeholder', count: 2)
   end
 
   scenario 'Authenticate user can answer the question' do

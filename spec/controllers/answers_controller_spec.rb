@@ -51,32 +51,51 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    sign_in_user
+    describe 'Authorized user' do
+      sign_in_user
 
-    context 'author' do
-      let(:question) { create(:question_with_answers, author: @user) }
-      let(:answer) { question.answers.first }
-      let(:parameters) do
-        { question_id: question, id: answer }
+      context 'author' do
+        before do
+          @question = create(:question_with_answers, answers_count: 1, author: @user)
+          answer = @question.answers.first
+          @parameters = { question_id: @question, id: answer }
+        end
+
+        it 'delete answer' do
+          expect { delete :destroy, params: @parameters }.to change(@question.answers, :count).by(-1)
+        end
+
+        it 'render index views' do
+          delete :destroy, params: @parameters
+          expect(response).to redirect_to question_path(@question)
+        end
       end
 
-      it 'delete answer' do
-        expect { delete :destroy, params: parameters }.to change(question.answers, :count).by(-1)
-      end
-
-      it 'render index views' do
-        delete :destroy, params: parameters
-        expect(response).to redirect_to question_path(question)
+      context 'not author' do
+        it 'can not delete answer' do
+          question = create(:question_with_answers, answers_count: 1)
+          answer = question.answers.first
+          parameters = { question_id: question, id: answer }
+          expect { delete :destroy, params: parameters }.to_not change(question.answers, :count)
+        end
       end
     end
+  end
 
-    context 'not author' do
-      it 'can not delete answer' do
-        question = create(:question_with_answers)
-        answer = question.answers.first
-        parameters = { question_id: question, id: answer }
-        expect { delete :destroy, params: parameters }.to_not change(question.answers, :count)
-      end
+  describe 'Non-authorized user' do
+    before do
+      @question = create(:question_with_answers)
+      answer = @question.answers.first
+      @parameters = { question_id: @question, id: answer }
+    end
+
+    it 'can not delete answer' do
+      expect { delete :destroy, params: @parameters }.to_not change(@question.answers, :count)
+    end
+
+    it 'redirect_to log in' do
+      delete :destroy, params: @parameters
+      expect(response).to redirect_to new_user_session_path
     end
   end
 end
