@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -53,7 +52,6 @@ RSpec.describe QuestionsController, type: :controller do
       sign_in_user
 
       context 'with valid attributes' do
-
         it 'saves the new question in database' do
           expect { post :create, params: parameters }.to change(Question, :count).by(1)
         end
@@ -86,8 +84,8 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirect_to log in' do
-         post :create, params: parameters
-         expect(response).to redirect_to new_user_session_path
+        post :create, params: parameters
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
