@@ -57,8 +57,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'author' do
         before do
           @question = create(:question_with_answers, answers_count: 1, author: @user)
-          answer = @question.answers.first
-          @parameters = { question_id: @question, id: answer }
+          answer_params(@question)
         end
 
         it 'delete answer' do
@@ -74,9 +73,8 @@ RSpec.describe AnswersController, type: :controller do
       context 'not author' do
         it 'can not delete answer' do
           question = create(:question_with_answers, answers_count: 1)
-          answer = question.answers.first
-          parameters = { question_id: question, id: answer }
-          expect { delete :destroy, params: parameters }.to_not change(question.answers, :count)
+          answer_params(question)
+          expect { delete :destroy, params: @parameters }.to_not change(question.answers, :count)
         end
       end
     end
@@ -85,8 +83,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'Non-authorized user' do
     before do
       @question = create(:question_with_answers)
-      answer = @question.answers.first
-      @parameters = { question_id: @question, id: answer }
+      answer_params(@question)
     end
 
     it 'can not delete answer' do
