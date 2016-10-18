@@ -4,7 +4,10 @@ p= @question.body
 - @question.answers.each do |answer|
   p= answer.body
 
-= form_for [@question, @question.answers.build] do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit
+- if user_signed_in?
+  = form_for [@question, @question.answers.build] do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit
+- else
+   p To answer the question log in
