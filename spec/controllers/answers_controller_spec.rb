@@ -49,4 +49,34 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    context 'author' do
+      let(:question) { create(:question_with_answers, author: @user) }
+      let(:answer) { question.answers.first }
+      let(:parameters) do
+        { question_id: question, id: answer }
+      end
+
+      it 'delete answer' do
+        expect { delete :destroy, params: parameters }.to change(question.answers, :count).by(-1)
+      end
+
+      it 'render index views' do
+        delete :destroy, params: parameters
+        expect(response).to redirect_to question_path(question)
+      end
+    end
+
+    context 'not author' do
+      it 'can not delete answer' do
+        question = create(:question_with_answers)
+        answer = question.answers.first
+        parameters = { question_id: question, id: answer }
+        expect { delete :destroy, params: parameters }.to_not change(question.answers, :count)
+      end
+    end
+  end
 end

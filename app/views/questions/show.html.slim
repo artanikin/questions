@@ -2,7 +2,10 @@ h1= @question.title
 p= @question.body
 
 - @question.answers.each do |answer|
-  p= answer.body
+  div
+    - if user_signed_in? && current_user.author?(answer)
+      = link_to 'Remove answer', question_answer_path(@question, answer), method: :delete, data: { confirm: 'Are you sure?' }
+    p= answer.body
 
 - if user_signed_in?
   = form_for [@question, @question.answers.build] do |f|

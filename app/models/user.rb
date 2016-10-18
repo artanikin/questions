@@ -5,8 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :questions, foreign_key: :author_id, dependent: :destroy
+  has_many :answers, foreign_key: :author_id, dependent: :destroy
 
-  def author?(question)
-    question.author.id == self.id
+  def author?(object)
+    object.author_id == self.id
   end
 end

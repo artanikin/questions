@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :answer do
+    author
     question
     body 'Answer placeholder'
   end

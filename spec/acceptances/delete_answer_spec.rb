@@ -1,0 +1,40 @@
+require 'rails_helper'
+
+feature 'Delete answer', %(
+  To hide answer from community
+  As an user
+  I can to able to remove answer
+) do
+
+  given(:user) { create(:user_with_question_and_answers, answer_count: 2) }
+  given(:question) { user.questions.first }
+
+  scenario 'Non-authorized user can not remove answer' do
+    user
+    visit question_path(question)
+
+    expect(page).not_to have_content 'Remove answer'
+  end
+
+  scenario 'Author can remove his answer' do
+    sign_in(user)
+
+    visit question_path(question)
+    click_on 'Remove answer', match: :first
+
+    expect(current_path).to eq question_path(question)
+    expect(page).to have_content('Remove answer', count: 4)
+    expect(page).to have_content 'Your answer successfully removed'
+  end
+
+  scenario 'Non-author can not remove not his answer' do
+    user
+    new_user = create(:user)
+    sign_in(new_user)
+
+    visit question_path(question)
+
+    expect(page).to have_content('Answer placeholder', count: 5)
+    expect(page).to_not have_content 'Remove answer'
+  end
+end

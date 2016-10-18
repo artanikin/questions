@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     @question = Question.find(params[:id])
-    if user_signed_in? && current_user.author?(@question)
+    if current_user.author?(@question)
       @question.destroy
       flash[:notice] = 'Your question successfully removed'
     end

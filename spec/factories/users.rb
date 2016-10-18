@@ -17,6 +17,16 @@ FactoryGirl.define do
         create_list(:question, evaluator.question_count, author: author)
       end
     end
+
+    factory :user_with_question_and_answers do
+      transient do
+        answer_count 2
+      end
+
+      after(:create) do |author, evaluator|
+        create(:question_with_answers, author: author)
+      end
+    end
   end
 
 end
