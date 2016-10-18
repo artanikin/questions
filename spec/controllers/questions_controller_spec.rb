@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 2) }
 
@@ -73,6 +74,32 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-render view new' do
         post :create, params: parameters
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    context 'author' do
+      let(:question) { create(:question, author: @user) }
+
+      before { question }
+
+      it 'delete question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'render index views' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'not author' do
+      it 'can not delete question' do
+        question = create(:question)
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
     end
   end

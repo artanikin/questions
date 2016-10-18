@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :question do
+    author
     title 'Simple title'
     body 'Placeholder for body'
 

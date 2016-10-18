@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Create question', %(
-  To get answers to questsions
+  To get answers to questions
   As an authenticated user
   I can to able to ask a question
 ) do
@@ -30,7 +30,7 @@ feature 'Create question', %(
     expect(current_path).to eq question_path(Question.last)
   end
 
-  scenario 'Non-uthenticated user creates question' do
+  scenario 'Non-authenticated user does not create question' do
     visit questions_path
     click_on 'Ask question'
 
