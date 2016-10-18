@@ -45,35 +45,49 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    sign_in_user
+    let(:parameters) do
+      { question: attributes_for(:question) }
+    end
 
-    context 'with valid attributes' do
-      let(:parameters) do
-        { question: attributes_for(:question) }
+    describe 'Authorized user' do
+      sign_in_user
+
+      context 'with valid attributes' do
+
+        it 'saves the new question in database' do
+          expect { post :create, params: parameters }.to change(Question, :count).by(1)
+        end
+
+        it 'redirect to show view' do
+          post :create, params: parameters
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 'saves the new question in database' do
-        expect { post :create, params: parameters }.to change(Question, :count).by(1)
-      end
+      context 'with invalid attributes' do
+        let(:parameters) do
+          { question: attributes_for(:invalid_question) }
+        end
 
-      it 'redirect to show view' do
-        post :create, params: parameters
-        expect(response).to redirect_to question_path(assigns(:question))
+        it 'does not save the question' do
+          expect { post :create, params: parameters }.to_not change(Question, :count)
+        end
+
+        it 're-render view new' do
+          post :create, params: parameters
+          expect(response).to render_template :new
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      let(:parameters) do
-        { question: attributes_for(:invalid_question) }
-      end
-
-      it 'does not save the question' do
+    describe 'Non-authorized user' do
+      it 'can not create question' do
         expect { post :create, params: parameters }.to_not change(Question, :count)
       end
 
-      it 're-render view new' do
-        post :create, params: parameters
-        expect(response).to render_template :new
+      it 'redirect_to log in' do
+         post :create, params: parameters
+         expect(response).to redirect_to new_user_session_path
       end
     end
   end
