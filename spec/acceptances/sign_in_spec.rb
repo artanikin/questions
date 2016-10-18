@@ -24,13 +24,4 @@ feature 'User sign in', %(
     expect(page).to have_content 'Invalid Email or password.'
     expect(current_path).to eq new_user_session_path
   end
-
-  scenario 'Authorized user can sign out' do
-    sign_in(user)
-
-    click_on 'Sign out'
-
-    expect(page).to have_content 'Sign in'
-    expect(current_path).to eq root_path
-  end
 end
