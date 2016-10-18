@@ -9,7 +9,7 @@ feature 'Delete answer', %(
   given(:user) { create(:user_with_question_and_answers, answer_count: 2) }
   given(:question) { user.questions.first }
 
-  scenario 'Non-authorized user can not remove answer' do
+  scenario 'Not-authorized user can not remove answer' do
     user
     visit question_path(question)
 
@@ -27,7 +27,7 @@ feature 'Delete answer', %(
     expect(page).to have_content 'Your answer successfully removed'
   end
 
-  scenario 'Non-author can not remove not his answer' do
+  scenario 'Not-author can not remove not his answer' do
     user
     new_user = create(:user)
     sign_in(new_user)

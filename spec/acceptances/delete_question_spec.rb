@@ -8,7 +8,7 @@ feature 'Delete question', %(
 
   given(:user) { create(:user_with_questions, question_count: 2) }
 
-  scenario 'Non-authorized user does not remove question' do
+  scenario 'Not-authorized user does not remove question' do
     user
     visit questions_path
 
@@ -26,7 +26,7 @@ feature 'Delete question', %(
     expect(page).to have_content 'Your question successfully removed'
   end
 
-  scenario 'Non-author can not remove not his question' do
+  scenario 'Not-author can not remove not his question' do
     user
     new_user = create(:user)
     sign_in(new_user)

@@ -29,7 +29,7 @@ feature 'User create answer', %(
     expect(page).to have_content 'Placeholder for answer'
   end
 
-  scenario 'Non-authenticate user does not create answer' do
+  scenario 'Not-authenticate user does not create answer' do
     visit question_path(question)
 
     expect(page).to have_content 'To answer the question log in'

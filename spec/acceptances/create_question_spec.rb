@@ -27,7 +27,7 @@ feature 'Create question', %(
     expect(current_path).to eq question_path(Question.last)
   end
 
-  scenario 'Non-authenticated user does not create question' do
+  scenario 'Not-authenticated user does not create question' do
     visit questions_path
     click_on 'Ask question'
 
