@@ -9,14 +9,6 @@ feature 'User create answer', %(
   given(:user) { create(:user) }
   given(:question) { create(:question_with_answers) }
 
-  scenario 'User can see the question and answers it' do
-    visit question_path(question)
-
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content question.title
-    expect(page).to have_content('Answer placeholder', count: 2)
-  end
-
   scenario 'Authenticate user can answer the question' do
     sign_in(user)
     visit question_path(question)

@@ -8,11 +8,6 @@ feature 'Create question', %(
 
   given(:user) { create(:user) }
 
-  scenario 'User can see the questions' do
-    visit questions_path
-    expect(current_path).to eq questions_path
-  end
-
   scenario 'Authenticated user creates question' do
     sign_in(user)
 
