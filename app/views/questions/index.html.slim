@@ -4,4 +4,4 @@ p= link_to 'Ask question', new_question_path
   p
     = question.title
     - if user_signed_in? && current_user.author?(question)
-      = link_to 'Remove question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'}
+      = link_to 'Remove question', question, method: :delete, data: {confirm: 'Are you sure?'}

@@ -9,16 +9,28 @@ feature 'User create answer', %(
   given(:user) { create(:user) }
   given(:question) { create(:question_with_answers) }
 
-  scenario 'Authenticate user can answer the question' do
-    sign_in(user)
-    visit question_path(question)
+  feature 'Authenticate user' do
+    before do
+      sign_in(user)
+      visit question_path(question)
+    end
 
-    fill_in 'Body', with: 'Placeholder for answer'
-    click_on 'Create'
+    scenario 'can answer the question with valid attributes' do
+      fill_in 'Body', with: 'Placeholder for answer'
+      click_on 'Create Answer'
 
-    expect(current_path).to eq question_path(question)
-    expect(page).to have_content 'Your answer successfully created.'
-    expect(page).to have_content 'Placeholder for answer'
+      expect(current_path).to eq question_path(question)
+      expect(page).to have_content 'Your answer successfully created.'
+      expect(page).to have_content 'Placeholder for answer'
+    end
+
+    scenario 'can not answer there question with invalid attributes' do
+      fill_in 'Body', with: ''
+      click_on 'Create Answer'
+
+      expect(page).to have_content 'Your answer not created. Check the correctness of filling the fields.'
+      expect(page).to have_content('Answer placeholder', count: 2)
+    end
   end
 
   scenario 'Not-authenticate user does not create answer' do

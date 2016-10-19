@@ -7,8 +7,11 @@ feature 'Show resources', %(
 ) do
 
   scenario 'User can see the questions' do
+    create_list(:question, 3)
+
     visit questions_path
-    expect(current_path).to eq questions_path
+
+    expect(page).to have_content('Simple title', count: 3)
   end
 
   scenario 'User can see the question and answers it' do
@@ -16,8 +19,8 @@ feature 'Show resources', %(
 
     visit question_path(question)
 
-    expect(current_path).to eq question_path(question)
     expect(page).to have_content question.title
+    expect(page).to have_content question.body
     expect(page).to have_content('Answer placeholder', count: 2)
   end
 end

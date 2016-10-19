@@ -6,7 +6,7 @@ feature 'Delete question', %(
   I can to able to remove question
 ) do
 
-  given(:user) { create(:user_with_questions, question_count: 2) }
+  given(:user) { create(:user_with_questions, question_count: 1) }
 
   scenario 'Not-authorized user does not remove question' do
     user
@@ -22,7 +22,8 @@ feature 'Delete question', %(
     click_on 'Remove question', match: :first
 
     expect(current_path).to eq questions_path
-    expect(page).to have_content('Simple title', count: 1)
+    expect(page).to_not have_content 'Simple title'
+    expect(page).to_not have_content 'Placeholder for body'
     expect(page).to have_content 'Your question successfully removed'
   end
 
@@ -31,7 +32,7 @@ feature 'Delete question', %(
     new_user = create(:user)
     sign_in(new_user)
 
-    expect(page).to have_content('Simple title', count: 2)
-    expect(page).to_not have_content 'Remove question'
+    expect(page).to have_content('Simple title', count: 1)
+    expect(page).to_not have_link 'Remove question'
   end
 end

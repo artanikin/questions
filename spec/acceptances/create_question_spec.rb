@@ -8,18 +8,32 @@ feature 'Create question', %(
 
   given(:user) { create(:user) }
 
-  scenario 'Authenticated user creates question' do
-    sign_in(user)
+  feature 'Authenticated user' do
+    before do
+      sign_in(user)
 
-    visit questions_path
-    click_on 'Ask question'
-    fill_in 'Title', with: 'Title placeholder'
-    fill_in 'Body', with: 'Placeholder for body'
-    click_on 'Create'
+      visit questions_path
+      click_on 'Ask question'
+    end
 
-    expect(page).to have_content 'Your question successfully created'
-    expect(page).to have_content 'Title placeholder'
-    expect(current_path).to eq question_path(Question.last)
+    scenario 'can create question with valid attributes' do
+      fill_in 'Title', with: 'Title placeholder'
+      fill_in 'Body', with: 'Placeholder for body'
+      click_on 'Create'
+
+      expect(page).to have_content 'Your question successfully created'
+      expect(page).to have_content 'Title placeholder'
+      expect(page).to have_content 'Placeholder for body'
+      expect(current_path).to eq question_path(Question.last)
+    end
+
+    scenario 'can not create question with valid attributes' do
+      fill_in 'Title', with: ''
+      fill_in 'Body', with: ''
+      click_on 'Create'
+
+      expect(page).to have_content 'Your question not created. Check the correctness of filling the fields.'
+    end
   end
 
   scenario 'Not-authenticated user does not create question' do

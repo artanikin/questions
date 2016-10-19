@@ -19,6 +19,7 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'Your question successfully created'
       redirect_to @question
     else
+      flash[:alert] = 'Your question not created. Check the correctness of filling the fields.'
       render :new
     end
   end
@@ -27,6 +28,8 @@ class QuestionsController < ApplicationController
     if current_user.author?(@question)
       @question.destroy
       flash[:notice] = 'Your question successfully removed'
+    else
+      flash[:alert] = 'Question does not removed. You are not the author of this question'
     end
     redirect_to questions_path
   end

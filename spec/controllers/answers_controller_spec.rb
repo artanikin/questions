@@ -13,12 +13,13 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with valid attributes' do
         it 'saves the new answer in database' do
-          expect { post :create, params: parameters }.to change(question.answers, :count).by(1)
+          expect { post :create, params: parameters }
+            .to change(question.answers.where(author: @user), :count).by(1)
         end
 
         it 'redirect to question show view' do
           post :create, params: parameters
-          expect(response).to redirect_to question_path(question)
+          expect(response).to redirect_to question
         end
       end
 
