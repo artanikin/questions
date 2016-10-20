@@ -15,14 +15,13 @@ class AnswersController < ApplicationController
 
   def destroy
     answer = Answer.find(params[:id])
-    question = answer.question
     if current_user.author?(answer)
       answer.destroy
       flash[:notice] = 'Your answer successfully removed'
     else
       flash[:alert] = 'Answer does not removed. You are not the author of this answer'
     end
-    redirect_to question
+    redirect_to answer.question
   end
 
   private

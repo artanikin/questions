@@ -6,8 +6,8 @@ feature 'Delete answer', %(
   I can to able to remove answer
 ) do
 
-  given!(:user) { create(:user_with_question_and_answers, answer_count: 2) }
-  given(:question) { user.questions.first }
+  given!(:user) { create(:user) }
+  given(:question) { create(:question_with_answers) }
 
   scenario 'Not-authorized user can not remove answer' do
     visit question_path(question)
@@ -17,13 +17,13 @@ feature 'Delete answer', %(
 
   scenario 'Author can remove his answer' do
     sign_in(user)
+    answer = create(:answer, author: user, question: question, body: 'Small body for answer')
 
     visit question_path(question)
     click_on 'Remove answer', match: :first
 
     expect(current_path).to eq question_path(question)
-    expect(page).to have_link('Remove answer', count: 1)
-    expect(page).to have_content('Answer placeholder', count: 1)
+    expect(page).to_not have_content answer.body
     expect(page).to have_content 'Your answer successfully removed'
   end
 

@@ -10,28 +10,14 @@ RSpec.describe User, type: :model do
   describe 'author?' do
     let(:user) { create(:user) }
 
-    context 'question' do
-      it 'user is the author of the question' do
-        question = create(:question, author: user)
-        expect(user).to be_author(question)
-      end
-
-      it 'user is not the not author of the question' do
-        question = create(:question)
-        expect(user).to_not be_author(question)
-      end
+    it 'user is the author of the question' do
+      question = create(:question, author: user)
+      expect(user).to be_author(question)
     end
 
-    context 'answer' do
-      it 'user is the author of the answer' do
-        answer = create(:answer, author: user)
-        expect(user).to be_author(answer)
-      end
-
-      it 'user is not the not author of the answer' do
-        answer = create(:answer)
-        expect(user).to_not be_author(answer)
-      end
+    it 'user is not the not author of the question' do
+      question = create(:question)
+      expect(user).to_not be_author(question)
     end
   end
 end
