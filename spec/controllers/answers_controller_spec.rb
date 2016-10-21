@@ -5,7 +5,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     let(:parameters) do
-      { question_id: question, answer: attributes_for(:answer) }
+      { question_id: question, answer: attributes_for(:answer), format: :js }
     end
 
     describe 'Authorized user' do
@@ -17,24 +17,24 @@ RSpec.describe AnswersController, type: :controller do
             .to change(question.answers.where(author: @user), :count).by(1)
         end
 
-        it 'redirect to question show view' do
+        it 'render temlate create' do
           post :create, params: parameters
-          expect(response).to redirect_to question
+          expect(response).to render_template :create
         end
       end
 
       context 'with invalid attributes' do
         let(:parameters) do
-          { question_id: question, answer: attributes_for(:invalid_answer) }
+          { question_id: question, answer: attributes_for(:invalid_answer), format: :js }
         end
 
         it 'does not save the answer' do
           expect { post :create, params: parameters }.to_not change(Answer, :count)
         end
 
-        it 're-render question/show view' do
+        it 'render create template' do
           post :create, params: parameters
-          expect(response).to render_template 'questions/show'
+          expect(response).to render_template :create
         end
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect_to log in' do
         post :create, params: parameters
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end

@@ -1,17 +1,12 @@
 h1= @question.title
 p= @question.body
 
-- if @question.answers.empty?
-  p No answers to this question
-- else
-  - @question.answers.each do |answer|
-    div
-      - if user_signed_in? && current_user.author?(answer) && answer.persisted?
-        = link_to 'Remove answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
-      p= answer.body
+- unless @question.answers.empty?
+  #answers= render @question.answers
+
 
 - if user_signed_in?
-  = form_for [@question, @question.answers.build] do |f|
+  = form_for [@question, @answer], remote: true do |f|
     = f.label :body
     = f.text_area :body
     = f.submit

@@ -1,0 +1,4 @@
+div
+  - if user_signed_in? && current_user.author?(answer) && answer.persisted?
+    = link_to 'Remove answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
+  p= answer.body

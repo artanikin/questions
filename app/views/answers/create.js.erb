@@ -1,0 +1,10 @@
+$('#flash').remove();
+$('#errors_block').remove();
+$('body').prepend('<%= j render partial: "shared/flash_message" %>');
+
+<% if @answer.errors.any? %>
+  $('#new_answer').before('<%= j render partial: "shared/error_messages", locals: { obj: @answer } %>');
+<% else %>
+  $('#answers').append('<%= j render @answer %>');
+  $('#answer_body').val('');
+<% end %>
