@@ -3,7 +3,13 @@ class AnswersController < ApplicationController
 
   def create
     @question = Question.find(params[:question_id])
-    @answer = @question.answers.create(answer_params.merge(author: current_user))
+    @answer = @question.answers.new(answer_params.merge(author: current_user))
+
+    if @answer.save
+      flash.now[:notice] = 'Your answer successfully created.'
+    else
+      flash.now[:alert] = 'Your answer not created. Check the correctness of filling the fields.'
+    end
   end
 
   def destroy

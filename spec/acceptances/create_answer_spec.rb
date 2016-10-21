@@ -15,21 +15,32 @@ feature 'User create answer', %(
       visit question_path(question)
     end
 
-    scenario 'can answer the question with valid attributes' do
+    scenario 'can answer the question with valid attributes', js: true do
       fill_in 'Body', with: 'Placeholder for answer'
       click_on 'Create Answer'
 
       expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'Placeholder for answer'
+      within '#answers' do
+        expect(page).to have_content 'Placeholder for answer'
+      end
     end
 
-    scenario 'can not answer there question with invalid attributes' do
+    scenario 'can not answer there question with invalid attributes', js: true do
       fill_in 'Body', with: ''
       click_on 'Create Answer'
 
+      expect(current_path).to eq question_path(question)
       expect(page).to have_content 'Your answer not created. Check the correctness of filling the fields.'
-      expect(page).to have_content('Answer placeholder', count: 2)
+
+      within '#errors_block' do
+        expect(page).to have_content('Body can\'t be blank');
+        expect(page).to have_content('Body is too short (minimum is 10 characters)');
+      end
+
+      within '#answers' do
+        expect(page).to have_content('Answer placeholder', count: 2)
+      end
     end
   end
 
