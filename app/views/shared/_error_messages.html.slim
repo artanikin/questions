@@ -1,0 +1,5 @@
+#errors_block
+  - if obj && obj.errors.any?
+    ul
+      - obj.errors.full_messages.each do |message|
+        li= message
