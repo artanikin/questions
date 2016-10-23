@@ -141,4 +141,76 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    describe 'Authenticated user' do
+      sign_in_user
+
+      context 'try edit his question' do
+        let(:question) { create(:question, author: @user) }
+
+        context 'with valid data' do
+          before do
+            patch :update,
+              params: { id: question, question: { title: 'Changed title', body: 'Changed body' } }
+          end
+
+          it 'changed question attributes' do
+            question.reload
+            expect(question.title).to eq 'Changed title'
+            expect(question.body).to eq 'Changed body'
+          end
+
+          it 'redirect to updated question' do
+            expect(response).to redirect_to question
+          end
+        end
+
+        context 'with invalid data' do
+          before do
+            patch :update,
+              params: { id: question, question: { title: nil, body: nil } }
+          end
+
+          it 'not changed question attributes' do
+            question.reload
+            expect(question.title).to eq 'Simple title'
+            expect(question.body).to eq 'Placeholder for body'
+          end
+
+          it 're-renders show view' do
+            expect(response).to render_template :show
+          end
+        end
+
+      end
+
+      context 'try edit not his question' do
+        it 'can not update question' do
+          question = create(:question)
+          patch :update,
+            params: { id: question, question: { title: 'Change title', body: 'Change body' } }
+          question.reload
+
+          expect(question.title).to_not eq 'Change title'
+          expect(question.body).to_not eq 'Change body'
+        end
+
+        it 're-renders show view' do
+          expect(response).to render_template :show
+        end
+      end
+
+    end
+
+    describe 'Unauthenticated user' do
+      it 'redirect_to log_in' do
+        question = create(:question)
+
+        patch :update,
+          params: { id: question, question: { title: 'Change title', body: 'Change body' } }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
 end
