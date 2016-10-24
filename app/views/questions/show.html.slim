@@ -1,5 +1,4 @@
-h1= @question.title
-p= @question.body
+= render 'question'
 
 - unless @question.answers.empty?
   #answers= render @question.answers

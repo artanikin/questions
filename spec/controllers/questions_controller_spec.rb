@@ -151,8 +151,8 @@ RSpec.describe QuestionsController, type: :controller do
 
         context 'with valid data' do
           before do
-            patch :update,
-              params: { id: question, question: { title: 'Changed title', body: 'Changed body' } }
+            patch :update, params: { id: question, format: :js,
+                                     question: { title: 'Changed title', body: 'Changed body' } }
           end
 
           it 'changed question attributes' do
@@ -162,14 +162,14 @@ RSpec.describe QuestionsController, type: :controller do
           end
 
           it 'redirect to updated question' do
-            expect(response).to redirect_to question
+            expect(response).to render_template :update
           end
         end
 
         context 'with invalid data' do
           before do
-            patch :update,
-              params: { id: question, question: { title: nil, body: nil } }
+            patch :update, params: { id: question, format: :js,
+                                     question: { title: nil, body: nil } }
           end
 
           it 'not changed question attributes' do
@@ -179,7 +179,7 @@ RSpec.describe QuestionsController, type: :controller do
           end
 
           it 're-renders show view' do
-            expect(response).to render_template :show
+            expect(response).to render_template :update
           end
         end
 
@@ -189,15 +189,12 @@ RSpec.describe QuestionsController, type: :controller do
         it 'can not update question' do
           question = create(:question)
           patch :update,
-            params: { id: question, question: { title: 'Change title', body: 'Change body' } }
+            params: { id: question, format: :js,
+                      question: { title: 'Change title', body: 'Change body' } }
           question.reload
 
           expect(question.title).to_not eq 'Change title'
           expect(question.body).to_not eq 'Change body'
-        end
-
-        it 're-renders show view' do
-          expect(response).to render_template :show
         end
       end
 
@@ -208,8 +205,9 @@ RSpec.describe QuestionsController, type: :controller do
         question = create(:question)
 
         patch :update,
-          params: { id: question, question: { title: 'Change title', body: 'Change body' } }
-        expect(response).to redirect_to new_user_session_path
+          params: { id: question, format: :js,
+                    question: { title: 'Change title', body: 'Change body' } }
+        expect(response.status).to eq 401
       end
     end
   end

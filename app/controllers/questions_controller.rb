@@ -28,15 +28,12 @@ class QuestionsController < ApplicationController
   def update
     if current_user.author?(@question)
       if @question.update(question_params)
-        flash[:notice] = 'Your question successfully updated'
-        redirect_to @question
+        flash.now[:notice] = 'Your question successfully updated'
       else
-        flash[:alert] = 'Your question not updated'
-        render :show
+        flash.now[:alert] = 'Your question not updated'
       end
     else
-      flash[:alert] = 'Question does not updated. You are not the author of this question'
-      redirect_to @question
+      flash.now[:alert] = 'Question does not updated. You are not the author of this question'
     end
   end
 

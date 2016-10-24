@@ -1,0 +1,16 @@
+$('#flash').remove();
+$('#errors_block').remove();
+$('body').prepend('<%= j render partial: "shared/flash_message" %>');
+
+<% if @question.errors.present? %>
+  $("form#edit_question_<%= @question.id %>").before('<%= j render partial: "shared/error_messages", locals: { obj: @question } %>');
+<% else %>
+  $('.question').replaceWith("<%= j render 'question' %>");
+
+  $('.edit-question-link').click(function(e) {
+    $(this).hide();
+    question_id = $(this).data('questionId');
+    $('form#edit_question_' + question_id).show();
+    e.preventDefault();
+  });
+<% end %>
