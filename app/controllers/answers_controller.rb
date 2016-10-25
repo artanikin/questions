@@ -23,6 +23,19 @@ class AnswersController < ApplicationController
     redirect_to answer.question
   end
 
+  def update
+    @answer = Answer.find(params[:id])
+    if current_user.author?(@answer)
+      if @answer.update(answer_params)
+        flash.now[:notice] = 'Your answer successfully updated'
+      else
+        flash.now[:alert] = 'Your answer not updated'
+      end
+    else
+      flash.now[:alert] = 'Answer does not updated. You are not the author of this answer'
+    end
+  end
+
   private
 
   def answer_params

@@ -14,7 +14,7 @@ feature 'Show resources', %(
     expect(page).to have_content('Simple title', count: 3)
   end
 
-  scenario 'User can see the question and answers it' do
+  scenario 'User can see the question and answers it', js: true do
     question = create(:question_with_answers)
 
     visit question_path(question)

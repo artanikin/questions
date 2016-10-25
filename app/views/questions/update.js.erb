@@ -1,6 +1,5 @@
-$('#flash').remove();
+$('#flash').replaceWith('<%= j render partial: "shared/flash_message" %>');
 $('#errors_block').remove();
-$('body').prepend('<%= j render partial: "shared/flash_message" %>');
 
 <% if @question.errors.present? %>
   $("form#edit_question_<%= @question.id %>").before('<%= j render partial: "shared/error_messages", locals: { obj: @question } %>');

@@ -161,7 +161,7 @@ RSpec.describe QuestionsController, type: :controller do
             expect(question.body).to eq 'Changed body'
           end
 
-          it 'redirect to updated question' do
+          it 'render to update template' do
             expect(response).to render_template :update
           end
         end
@@ -178,7 +178,7 @@ RSpec.describe QuestionsController, type: :controller do
             expect(question.body).to eq 'Placeholder for body'
           end
 
-          it 're-renders show view' do
+          it 'render update template' do
             expect(response).to render_template :update
           end
         end

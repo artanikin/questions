@@ -96,4 +96,72 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to redirect_to new_user_session_path
     end
   end
+
+  describe 'PATCH #update' do
+    let(:answer) { create(:answer, question: question) }
+
+    describe 'authorized user' do
+      sign_in_user
+
+      context 'try update his answer' do
+        let(:answer) { create(:answer, question: question, author: @user) }
+
+        context 'with valid attributes' do
+          before do
+            patch :update, params: { id: answer.id, format: :js, answer: { body: 'Change answer' } }
+          end
+
+          it 'change answer' do
+            expect(answer.reload.body).to eq 'Change answer'
+          end
+
+          it 'render update template' do
+            expect(response).to render_template :update
+          end
+        end
+
+        context 'with invalid attributes' do
+          before do
+            patch :update, params: { id: answer.id, format: :js, answer: { body: '' } }
+          end
+
+          it 'not change answer' do
+            expect(answer.reload.body).to eq 'Answer placeholder'
+          end
+
+          it 'render update template' do
+            expect(response).to render_template :update
+          end
+        end
+      end
+
+      context 'try update not his answer' do
+        before do
+          patch :update, params: { id: answer.id, format: :js, answer: { body: 'Change answer' } }
+        end
+
+        it 'not change answer' do
+          expect(answer.reload.body).to_not eq 'Change answer'
+        end
+
+        it 'render update template' do
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    describe 'unauthorized user' do
+      before do
+        patch :update, params: { id: answer.id, format: :js, answer: { body: 'Change answer' } }
+      end
+
+      it 'can not update answer' do
+        expect(answer.body).to_not eq 'Change answer'
+      end
+
+      it 'redirect to log in' do
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end

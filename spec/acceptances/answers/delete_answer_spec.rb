@@ -33,7 +33,6 @@ feature 'Delete answer', %(
 
     visit question_path(question)
 
-    expect(page).to have_content('Answer placeholder', count: 2)
     expect(page).to_not have_link 'Remove answer'
   end
 end
