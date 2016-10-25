@@ -28,6 +28,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'capybara'
   gem 'launchy'
+  gem 'fuubar'
 end
 
 group :development do
