@@ -91,3 +91,4 @@ Shoulda::Matchers.configure do |config|
 end
 
 Capybara.javascript_driver = :poltergeist
+Capybara.default_max_wait_time = 5

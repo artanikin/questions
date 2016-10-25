@@ -18,12 +18,13 @@ feature 'Edit Question', %(
   end
 
   describe 'Authenticate user' do
-    before do
-      sign_in(user)
-      visit question_path(question)
-    end
+    before { sign_in(user) }
 
     describe 'try to edit his question' do
+      let(:question) { create(:question, author: user) }
+
+      before { visit question_path(question) }
+
       scenario 'sees link Edit' do
         within '.question' do
           expect(page).to have_link 'Edit'
@@ -31,26 +32,43 @@ feature 'Edit Question', %(
       end
 
       scenario 'with valid data', js: true do
-        pending
         within '.question' do
           click_on 'Edit'
 
-        end
-        within '.question form' do
           fill_in 'Title', with: 'Changed title'
           fill_in 'Body', with: 'Changed body'
           click_on 'Update Question'
+
+          expect(page).to_not have_selector 'textarea'
         end
 
-        # expect(page).to_not have_content question.title
-        # expect(page).to_not have_content question.body
+        expect(page).to_not have_content question.title
+        expect(page).to_not have_content question.body
         expect(page).to have_content 'Changed title'
         expect(page).to have_content 'Changed body'
-        expect(page).to_not have_selector 'textarea'
       end
 
-      scenario 'with invalid data'
+      scenario 'with invalid data', js: true do
+        within '.question' do
+          click_on 'Edit'
+
+          fill_in 'Title', with: ''
+          click_on 'Update Question'
+        end
+
+        expect(page).to have_content 'Your question not update'
+        expect(page).to have_content 'Title can\'t be blank'
+        expect(page).to have_content 'Title is too short (minimum is 10 characters)'
+        expect(page).to have_content question.title
+      end
     end
-    scenario 'try to edit not his question'
+
+    scenario 'try to edit not his question' do
+      visit question_path(question)
+
+      within '.question' do
+        expect(page).to_not have_link 'Edit'
+      end
+    end
   end
 end
