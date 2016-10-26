@@ -166,4 +166,52 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #best' do
+
+    describe 'Unauthorized user' do
+      it 'redirect to log in' do
+        answer = create(:answer, question: question)
+        patch :best, params: { id: answer, format: :js }
+        expect(response.status).to eq 401
+      end
+    end
+
+    describe 'Authorized user' do
+      sign_in_user
+
+      context 'as the author of the question' do
+        let!(:question) { create(:question, author: @user) }
+        let!(:answer1) { create(:answer, question: question) }
+        let!(:answer2) { create(:answer, question: question, best: true) }
+
+        before do
+          patch :best, params: { id: answer1, format: :js }
+        end
+
+        it 'assigns answer' do
+          expect(assigns(:answer)).to eq answer1
+        end
+
+        it 'set answer as best' do
+          expect(answer1.reload).to be_best
+          expect(answer2.reload).to_not be_best
+        end
+
+        it 'render best template' do
+          expect(response).to render_template :best
+        end
+      end
+
+      context 'as non author of the question' do
+        let!(:question) { create(:question) }
+        let!(:answer) { create(:answer, question: question) }
+
+        it 'can not mark answer as best' do
+          expect { patch :best, params: { id: answer, format: :js } }.to_not change(answer, :best)
+        end
+      end
+    end
+
+  end
 end
