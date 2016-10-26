@@ -15,7 +15,7 @@ feature 'Delete answer', %(
     expect(page).not_to have_link 'Remove answer'
   end
 
-  scenario 'Author can remove his answer' do
+  scenario 'Author can remove his answer', js: true do
     sign_in(user)
     answer = create(:answer, author: user, question: question, body: 'Small body for answer')
 

@@ -1,6 +1,6 @@
 div id = "answer_#{answer.id}"
   - if user_signed_in? && current_user.author?(answer) && answer.persisted?
-    = link_to 'Remove answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
+    = link_to 'Remove answer', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }
     |
     = link_to 'Edit', '', class: 'edit_answer_link', data: { answer_id: answer.id }
   p= answer.body

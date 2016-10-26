@@ -20,7 +20,6 @@ class AnswersController < ApplicationController
     else
       flash[:alert] = 'Answer does not removed. You are not the author of this answer'
     end
-    redirect_to answer.question
   end
 
   def update

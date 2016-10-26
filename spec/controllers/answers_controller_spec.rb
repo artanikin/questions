@@ -62,12 +62,13 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         it 'delete answer' do
-          expect { delete :destroy, params: @parameters }.to change(@question.answers, :count).by(-1)
+          expect { delete :destroy, params: @parameters, format: :js }
+            .to change(@question.answers, :count).by(-1)
         end
 
-        it 'render index views' do
-          delete :destroy, params: @parameters
-          expect(response).to redirect_to question_path(@question)
+        it 'render destroy template' do
+          delete :destroy, params: @parameters, format: :js
+          expect(response).to render_template :destroy
         end
       end
 
@@ -75,7 +76,8 @@ RSpec.describe AnswersController, type: :controller do
         it 'can not delete answer' do
           question = create(:question_with_answers, answers_count: 1)
           answer_params(question)
-          expect { delete :destroy, params: @parameters }.to_not change(question.answers, :count)
+          expect { delete :destroy, params: @parameters, format: :js }
+            .to_not change(question.answers, :count)
         end
       end
     end
