@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'Create question', %(
   To get answers to questions
@@ -32,7 +32,8 @@ feature 'Create question', %(
       fill_in 'Body', with: ''
       click_on 'Create'
 
-      expect(page).to have_content 'Your question not created. Check the correctness of filling the fields.'
+      expect(page).to have_content(
+        'Your question not created. Check the correctness of filling the fields.')
     end
   end
 

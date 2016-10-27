@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'acceptance_helper'
 
 feature 'User create answer', %(
   To help solve the problev
@@ -31,10 +31,11 @@ feature 'User create answer', %(
       click_on 'Create Answer'
 
       expect(current_path).to eq question_path(question)
-      expect(page).to have_content 'Your answer not created. Check the correctness of filling the fields.'
+      expect(page).to have_content(
+        'Your answer not created. Check the correctness of filling the fields.')
 
       within '#errors_block' do
-        expect(page).to have_content('Body can\'t be blank');
+        expect(page).to have_content('Body can\'t be blank')
         expect(page).to have_content('Body is too short (minimum is 10 characters)');
       end
 
