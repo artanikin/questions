@@ -11,7 +11,6 @@ feature 'Delete answer', %(
 
   scenario 'Not-authorized user can not remove answer' do
     visit question_path(question)
-
     expect(page).not_to have_link 'Remove answer'
   end
 
@@ -20,10 +19,12 @@ feature 'Delete answer', %(
     answer = create(:answer, author: user, question: question, body: 'Small body for answer')
 
     visit question_path(question)
-    click_on 'Remove answer', match: :first
+    within '#answers' do
+      click_on 'Remove answer'
+    end
 
-    expect(current_path).to eq question_path(question)
     expect(page).to_not have_content answer.body
+    expect(current_path).to eq question_path(question)
     expect(page).to have_content 'Your answer successfully removed'
   end
 
