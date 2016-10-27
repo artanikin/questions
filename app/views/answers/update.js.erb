@@ -7,7 +7,7 @@ $('#errors_block').remove();
   $('#answer_' + <%= @answer.id %>).replaceWith("<%= j render partial: 'answer', locals: { answer: @answer } %>");
 <% end %>
 
-$('.edit_answer_link').click(function(e){
+$('.edit_answer_link').click(function(e) {
   e.preventDefault();
   $(this).hide();
   answer_id = $(this).data('answerId');
