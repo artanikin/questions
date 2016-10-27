@@ -1,4 +1,18 @@
-div
-  - if user_signed_in? && current_user.author?(answer) && answer.persisted?
-    = link_to 'Remove answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
+div.answer id = "answer_#{answer.id}"
+  - if answer.best?
+    strong Best answer
+
+  - if user_signed_in? && answer.persisted?
+    - if !answer.best? && current_user.author?(answer.question)
+      = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
+    - if current_user.author?(answer)
+      |  | 
+      = link_to 'Edit', '', class: 'edit_answer_link', data: { answer_id: answer.id }
+      |  | 
+      = link_to 'Remove answer', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+      p
+        = form_for answer, remote: true do |f|
+          = f.label :body, 'Answer'
+          = f.text_area :body
+          = f.submit 'Save'
   p= answer.body

@@ -141,4 +141,73 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    describe 'Authenticated user' do
+      sign_in_user
+
+      context 'can edit his question' do
+        let(:question) { create(:question, author: @user) }
+
+        context 'with valid data' do
+          before do
+            patch :update, params: { id: question, format: :js,
+                                     question: { title: 'Changed title', body: 'Changed body' } }
+          end
+
+          it 'changed question attributes' do
+            question.reload
+            expect(question.title).to eq 'Changed title'
+            expect(question.body).to eq 'Changed body'
+          end
+
+          it 'render to update template' do
+            expect(response).to render_template :update
+          end
+        end
+
+        context 'with invalid data' do
+          before do
+            patch :update, params: { id: question, format: :js, question: { title: nil } }
+          end
+
+          it 'not changed question attributes' do
+            question.reload
+            expect(question.title).to eq 'Simple title'
+            expect(question.body).to eq 'Placeholder for body'
+          end
+
+          it 'render update template' do
+            expect(response).to render_template :update
+          end
+        end
+
+      end
+
+      context 'can not edit not his question' do
+        it 'can not update question' do
+          question = create(:question)
+          patch :update,
+            params: { id: question, format: :js,
+                      question: { title: 'Change title', body: 'Change body' } }
+          question.reload
+
+          expect(question.title).to_not eq 'Change title'
+          expect(question.body).to_not eq 'Change body'
+        end
+      end
+
+    end
+
+    describe 'Unauthenticated user' do
+      it 'get 401 status Unauthorized' do
+        question = create(:question)
+
+        patch :update,
+          params: { id: question, format: :js,
+                    question: { title: 'Change title', body: 'Change body' } }
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end

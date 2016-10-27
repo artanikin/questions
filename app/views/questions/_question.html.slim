@@ -1,0 +1,14 @@
+.question
+  - if user_signed_in? && current_user.author?(@question)
+    = link_to 'Edit', '', class: 'edit-question-link', data: { question_id: @question.id }
+    = form_for @question, remote: true, html: { id: "edit_question_#{@question.id}" } do |f|
+      p
+        = f.label :title
+        = f.text_field :title
+      p
+        = f.label :body
+        = f.text_area :body
+      p= f.submit
+
+  h1= @question.title
+  p= @question.body

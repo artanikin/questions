@@ -78,6 +78,9 @@ GEM
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
     ffi (1.9.14)
+    fuubar (2.2.0)
+      rspec-core (~> 3.0)
+      ruby-progressbar (~> 1.4)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -249,6 +252,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  fuubar
   jbuilder (~> 2.5)
   jquery-rails
   launchy
@@ -272,4 +276,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   1.13.5
+   1.13.6

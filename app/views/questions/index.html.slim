@@ -2,6 +2,8 @@ p= link_to 'Ask question', new_question_path
 
 - @questions.each do |question|
   p
-    = question.title
+    = link_to question.title, question
     - if user_signed_in? && current_user.author?(question)
+      |  (
       = link_to 'Remove question', question, method: :delete, data: {confirm: 'Are you sure?'}
+      | )

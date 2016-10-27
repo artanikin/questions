@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018174900) do
+ActiveRecord::Schema.define(version: 20161026111821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,9 +18,10 @@ ActiveRecord::Schema.define(version: 20161018174900) do
   create_table "answers", force: :cascade do |t|
     t.text     "body"
     t.integer  "question_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "author_id"
+    t.boolean  "best",        default: false
     t.index ["author_id"], name: "index_answers_on_author_id", using: :btree
     t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
   end
@@ -51,7 +52,6 @@ ActiveRecord::Schema.define(version: 20161018174900) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
   add_foreign_key "questions", "users", column: "author_id"
 end

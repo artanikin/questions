@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_question, only: [:show, :destroy]
+  before_action :set_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -22,6 +22,18 @@ class QuestionsController < ApplicationController
     else
       flash[:alert] = 'Your question not created. Check the correctness of filling the fields.'
       render :new
+    end
+  end
+
+  def update
+    if current_user.author?(@question)
+      if @question.update(question_params)
+        flash.now[:notice] = 'Your question successfully updated'
+      else
+        flash.now[:alert] = 'Your question not updated'
+      end
+    else
+      flash.now[:alert] = 'Question does not updated. You are not the author of this question'
     end
   end
 
