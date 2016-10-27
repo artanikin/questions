@@ -105,7 +105,7 @@ RSpec.describe AnswersController, type: :controller do
     describe 'authorized user' do
       sign_in_user
 
-      context 'try update his answer' do
+      context 'can update his answer' do
         let(:answer) { create(:answer, question: question, author: @user) }
 
         context 'with valid attributes' do
@@ -137,7 +137,7 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
 
-      context 'try update not his answer' do
+      context 'can not update not his answer' do
         before do
           patch :update, params: { id: answer.id, format: :js, answer: { body: 'Change answer' } }
         end

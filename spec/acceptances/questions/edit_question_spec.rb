@@ -9,7 +9,7 @@ feature 'Edit Question', %(
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'Unauthenticate user try edit question' do
+  scenario 'Unauthenticate user cant not edit question' do
     visit question_path(question)
 
     within '.question' do
@@ -20,7 +20,7 @@ feature 'Edit Question', %(
   describe 'Authenticate user' do
     before { sign_in(user) }
 
-    describe 'try to edit his question' do
+    describe 'can to edit his question' do
       let(:question) { create(:question, author: user) }
 
       before { visit question_path(question) }
@@ -63,7 +63,7 @@ feature 'Edit Question', %(
       end
     end
 
-    scenario 'try to edit not his question' do
+    scenario 'not to see edit link' do
       visit question_path(question)
 
       within '.question' do

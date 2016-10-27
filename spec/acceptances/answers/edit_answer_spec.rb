@@ -10,7 +10,7 @@ feature 'Edit Answer', %(
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 
-  scenario 'Unauthenticate user try edit answer' do
+  scenario 'Unauthenticate user can not edit answer' do
     visit question_path(question)
     within '#answers' do
       expect(page).to_not have_link 'Edit'
@@ -23,7 +23,7 @@ feature 'Edit Answer', %(
       visit question_path(question)
     end
 
-    describe 'try edit his answer' do
+    describe 'can edit his answer' do
       given!(:answer) { create(:answer, question: question, author: user) }
 
       scenario 'with valid data', js: true do

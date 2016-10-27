@@ -146,7 +146,7 @@ RSpec.describe QuestionsController, type: :controller do
     describe 'Authenticated user' do
       sign_in_user
 
-      context 'try edit his question' do
+      context 'can edit his question' do
         let(:question) { create(:question, author: @user) }
 
         context 'with valid data' do
@@ -184,7 +184,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       end
 
-      context 'try edit not his question' do
+      context 'can not edit not his question' do
         it 'can not update question' do
           question = create(:question)
           patch :update,

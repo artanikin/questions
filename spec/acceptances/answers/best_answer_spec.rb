@@ -8,7 +8,7 @@ feature 'Best answer', %(
 
   given!(:user) { create(:user) }
 
-  scenario 'Unauthorized user try mark the answer as best' do
+  scenario 'Unauthorized user can not mark the answer as best' do
     question = create(:question_with_answers)
     visit question_path(question)
     expect(page).to_not have_link('Best')
@@ -17,7 +17,7 @@ feature 'Best answer', %(
   describe 'Authorized user' do
     before { sign_in(user) }
 
-    scenario 'as author of question try mark the answer as best', js: true do
+    scenario 'as author of question can mark the answer as best', js: true do
       question = create(:question, author: user)
       answer1 = create(:answer, question: question, body: 'This is answer number 1')
       answer2 = create(:answer, question: question, best: true)
@@ -43,15 +43,9 @@ feature 'Best answer', %(
       expect(first_answer_text).to have_content 'Best answer'
     end
 
-    scenario 'as non author the question try mark the answer as best' do
+    scenario 'as non author of the question can not mark the answer as best' do
       question = create(:question_with_answers)
-      answer = create(:answer, question: question, best: true)
-
       visit question_path(question)
-
-      within "#answer_#{answer.id}" do
-        expect(page).to have_content 'Best answer'
-      end
       expect(page).to_not have_link 'Best'
     end
   end
