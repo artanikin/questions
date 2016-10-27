@@ -246,7 +246,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   capybara
   coffee-rails (~> 4.2)
   database_cleaner
