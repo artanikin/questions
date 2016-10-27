@@ -168,8 +168,7 @@ RSpec.describe QuestionsController, type: :controller do
 
         context 'with invalid data' do
           before do
-            patch :update, params: { id: question, format: :js,
-                                     question: { title: nil, body: nil } }
+            patch :update, params: { id: question, format: :js, question: { title: nil } }
           end
 
           it 'not changed question attributes' do
@@ -201,7 +200,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     describe 'Unauthenticated user' do
-      it 'redirect_to log_in' do
+      it 'get 401 status Unauthorized' do
         question = create(:question)
 
         patch :update,

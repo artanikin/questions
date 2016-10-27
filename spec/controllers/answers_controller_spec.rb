@@ -44,7 +44,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: parameters }.to_not change(Answer, :count)
       end
 
-      it 'redirect_to log in' do
+      it 'get 401 status Unauthorized' do
         post :create, params: parameters
         expect(response.status).to eq 401
       end
@@ -161,18 +161,18 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'Change answer'
       end
 
-      it 'redirect to log in' do
+      it 'get 401 status Unauthorized' do
         expect(response.status).to eq 401
       end
     end
   end
 
   describe 'PATCH #best' do
-
     describe 'Unauthorized user' do
-      it 'redirect to log in' do
+      it 'get 401 status Unauthorized' do
         answer = create(:answer, question: question)
         patch :best, params: { id: answer, format: :js }
+
         expect(response.status).to eq 401
       end
     end
@@ -212,6 +212,5 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
     end
-
   end
 end
