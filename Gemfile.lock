@@ -51,6 +51,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (1.0.0.beta)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     cliver (0.3.2)
     coderay (1.1.1)
     coffee-rails (4.2.1)
@@ -247,6 +251,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  carrierwave
   coffee-rails (~> 4.2)
   database_cleaner
   devise
