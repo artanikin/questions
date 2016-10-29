@@ -1,10 +1,1 @@
-= form_for @question, multipart: true do |f|
-  p
-    = f.label :title
-    = f.text_field :title
-  p
-    = f.label :body
-    = f.text_area :body
-  = render 'shared/nested_form/attachments_form', f: f
-  p = f.submit
-
+= render 'form', question: @question, remote: false

@@ -4,7 +4,7 @@ $('#errors_block').remove();
 <% if @question.errors.present? %>
   $("form#edit_question_<%= @question.id %>").before('<%= j render partial: "shared/error_messages", locals: { obj: @question } %>');
 <% else %>
-  $('.question').replaceWith("<%= j render 'question' %>");
+  $('.question').replaceWith("<%= j render 'question', question: @question %>");
 
   $('.edit-question-link').click(function(e) {
     $(this).hide();
