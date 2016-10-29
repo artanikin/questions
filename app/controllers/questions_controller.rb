@@ -21,7 +21,6 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'Your question successfully created'
       redirect_to @question
     else
-      binding.pry
       flash[:alert] = 'Your question not created. Check the correctness of filling the fields.'
       render :new
     end
