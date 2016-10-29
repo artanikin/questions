@@ -9,7 +9,7 @@
     p
       = f.label :body
       = f.text_area :body
-    = render partial: 'shared/nested_attachments_fields', locals: { f: f }
+    = render 'shared/nested_form/attachments_form', f: f
     p = f.submit
 - else
    p To answer the question log in

@@ -12,4 +12,4 @@
 
   h1= @question.title
   p= @question.body
-  = render partial: 'shared/show_attachments', locals: { obj: @question }
+  = render partial: 'shared/nested_form/attachments', locals: { obj: @question }

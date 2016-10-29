@@ -18,4 +18,4 @@ div.answer id = "answer_#{answer.id}"
             = f.submit 'Save'
 
     p= answer.body
-    = render partial: 'shared/show_attachments', locals: { obj: answer }
+    = render partial: 'shared/nested_form/attachments', locals: { obj: answer }
