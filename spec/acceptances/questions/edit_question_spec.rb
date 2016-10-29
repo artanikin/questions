@@ -9,7 +9,7 @@ feature 'Edit Question', %(
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
-  scenario 'Unauthenticate user cant not edit question' do
+  scenario 'Unauthenticate user can not edit question' do
     visit question_path(question)
 
     within '.question' do
