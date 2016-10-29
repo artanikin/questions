@@ -1,6 +1,13 @@
-= form_for @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit
+= form_for @question, multipart: true do |f|
+  p
+    = f.label :title
+    = f.text_field :title
+  p
+    = f.label :body
+    = f.text_area :body
+  p Attachments:
+  p = f.fields_for :attachments do |a|
+      = a.label :file
+      = a.file_field :file
+  p = f.submit
+

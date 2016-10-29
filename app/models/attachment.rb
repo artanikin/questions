@@ -1,5 +1,5 @@
-class Attachment < ApplicationRecord
-  mount_uploader :file, FileUploader
+class Attachment < ActiveRecord::Base
+  belongs_to :attachable, polymorphic: true, optional: true
 
-  belongs_to :attachable, polymorphic: true
+  mount_uploader :file, FileUploader
 end

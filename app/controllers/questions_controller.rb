@@ -12,6 +12,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def create
@@ -20,6 +21,7 @@ class QuestionsController < ApplicationController
       flash[:notice] = 'Your question successfully created'
       redirect_to @question
     else
+      binding.pry
       flash[:alert] = 'Your question not created. Check the correctness of filling the fields.'
       render :new
     end
@@ -54,6 +56,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, attachments_attributes: [:file])
   end
 end
