@@ -9,10 +9,7 @@
     p
       = f.label :body
       = f.text_area :body
-    p Attachments:
-    = f.fields_for :attachments do |a|
-      = a.label :file
-      = a.file_field :file
+    = render partial: 'shared/nested_attachments_fields', locals: { f: f }
     p = f.submit
 - else
    p To answer the question log in
