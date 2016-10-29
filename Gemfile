@@ -14,6 +14,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'devise'
 gem 'carrierwave'
+gem 'remotipart'
 
 group :development, :test do
   gem 'rspec-rails'
