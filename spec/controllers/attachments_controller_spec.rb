@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-
   let!(:question) { create(:question) }
   let!(:attachment) { create(:attachment, attachable: question) }
 
@@ -11,20 +10,20 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'can delete his attachment' do
         question.update(author: @user)
-        expect { delete :destroy, format: :js , params: { id: attachment } }
-            .to change(question.attachments, :count).by(-1)
+        expect { delete :destroy, format: :js, params: { id: attachment } }
+          .to change(question.attachments, :count).by(-1)
       end
 
       it 'can not delete his attachment' do
-        expect { delete :destroy, format: :js , params: { id: attachment } }
-            .to_not change(question.attachments, :count)
+        expect { delete :destroy, format: :js, params: { id: attachment } }
+          .to_not change(question.attachments, :count)
       end
     end
 
     describe 'Unauthorized user' do
       it 'can not delete attachment' do
-        expect { delete :destroy, format: :js , params: { id: attachment } }
-            .to_not change(question.attachments, :count)
+        expect { delete :destroy, format: :js, params: { id: attachment } }
+          .to_not change(question.attachments, :count)
       end
 
       it 'redirect to log in' do
