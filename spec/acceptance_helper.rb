@@ -9,7 +9,7 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
   Capybara.default_max_wait_time = 5
   Capybara.ignore_hidden_elements = true
-  Capybara.save_and_open_page_path = './tmp/capybara_output'
+  Capybara.save_path = './tmp/capybara_output'
 
   config.use_transactional_fixtures = false
 

@@ -1,4 +1,4 @@
-= render 'question'
+= render @question
 
 - unless @question.answers.empty?
   #answers= render @question.answers
@@ -6,8 +6,10 @@
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.submit
+    p
+      = f.label :body
+      = f.text_area :body
+    = render 'shared/nested_form/attachments_form', f: f
+    p = f.submit
 - else
    p To answer the question log in

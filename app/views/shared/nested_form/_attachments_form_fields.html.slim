@@ -1,0 +1,8 @@
+.nested_fields
+  .field
+    - if f.object.persisted?
+      = f.object.file.filename
+    - else
+      = f.label :file
+      = f.file_field :file
+  = link_to_remove_association 'remove file', f, { wrapper_class: 'nested_fields' }
