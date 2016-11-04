@@ -41,7 +41,12 @@ GEM
     addressable (2.4.0)
     arel (7.1.4)
     ast (2.3.0)
+    autoprefixer-rails (6.5.1.1)
+      execjs
     bcrypt (3.1.11)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.6)
     capybara (2.10.1)
@@ -252,6 +257,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass (~> 3.3.6)
   capybara
   carrierwave
   cocoon

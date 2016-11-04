@@ -1,9 +1,11 @@
 = form_for question, remote: remote, html: { multipart: true, id: "edit_question_#{question.id}" } do |f|
-  p
+  .form-group
     = f.label :title
-    = f.text_field :title
-  p
+    = f.text_field :title, class: 'form-control'
+  .form-group
     = f.label :body
-    = f.text_area :body
+    = f.text_area :body, class: 'form-control'
+  .form-group
     = render 'shared/nested_form/attachments_form', f: f
-  p = f.submit
+  .form-group
+    = f.submit class: 'btn btn-primary'

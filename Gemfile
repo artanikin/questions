@@ -16,6 +16,7 @@ gem 'devise'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 group :development, :test do
   gem 'rspec-rails'

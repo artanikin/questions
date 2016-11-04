@@ -1,6 +1,6 @@
 .question
   - if user_signed_in? && current_user.author?(question)
-    = link_to 'Edit', '', class: 'edit-question-link', data: { question_id: question.id }
+    = link_to 'Edit', '', class: 'edit-question-link btn btn-primary', data: { question_id: question.id }
     = render 'form', question: question, remote: true
 
   h1= question.title
