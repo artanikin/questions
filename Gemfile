@@ -32,6 +32,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'fuubar'
+  gem 'rack_session_access'
 end
 
 group :development do
