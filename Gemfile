@@ -24,6 +24,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'spring-commands-rspec'
 end
 
 group :test do
