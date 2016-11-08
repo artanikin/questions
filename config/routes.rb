@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:destroy]
+  post '/vote_up/:votable_type/:votable_id',   to: 'votes#up',   as: 'vote_up'
+  post '/vote_down/:votable_type/:votable_id', to: 'votes#down', as: 'vote_down'
 end
