@@ -21,6 +21,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
   gem 'pry-byebug'
   gem 'poltergeist'
   gem 'database_cleaner'
