@@ -218,4 +218,35 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #vote_up' do
+    let(:question) { create(:question) }
+    let(:parameters) do
+      { id: question.id, format: :js }
+    end
+
+    describe 'Authorized user' do
+      sign_in_user
+
+      context 'not author the question' do
+        it 'can vote up' do
+          expect { patch :vote_up, params: parameters }.to change(question.votes, :count).by(1)
+        end
+      end
+
+      context 'author the question' do
+        it 'can not vote up' do
+          question.update(author_id: @user.id)
+          expect { patch :vote_up, params: parameters }.to_not change(question.votes, :count)
+        end
+      end
+    end
+
+    describe 'Unauthorized user' do
+      it 'can not vote up' do
+        expect { patch :vote_up, params: parameters }.to_not change(question.votes, :count)
+      end
+    end
+  end
+
 end

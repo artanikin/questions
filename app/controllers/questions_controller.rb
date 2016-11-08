@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :update, :destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.with_raiting
   end
 
   def show
@@ -47,6 +47,19 @@ class QuestionsController < ApplicationController
       flash[:alert] = 'Question does not removed. You are not the author of this question'
     end
     redirect_to questions_path
+  end
+
+  def vote_up
+    @question = Question.find(params[:id])
+    respond_to do |format|
+      if current_user.author?(@question)
+        flash[:danger] = 'You can not vote your question'
+      else
+        @vote = @question.vote_up(current_user)
+        flash[:success] = 'You voted the question'
+        format.json { render json: @vote  }
+      end
+    end
   end
 
   private
