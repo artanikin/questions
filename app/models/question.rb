@@ -8,14 +8,21 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
   validates :title, :body, length: { minimum: 10 }
 
-  scope :with_raiting, -> do
+  scope :with_rating, -> do
     left_joins(:votes)
-      .select('questions.*, COALESCE(SUM(votes.value), 0) AS raiting')
+      .select('questions.*, COALESCE(SUM(votes.value), 0) AS rating')
       .group('questions.id, votes.votable_type, votes.votable_id')
-      .order('raiting DESC')
+  end
+
+  def evaluation
+    votes.sum(:value)
   end
 
   def vote_up(user)
-    votes.create(author: user, value: 1)
+    if !user.author?(self) && votes.create(author: user, value: 1)
+      true
+    else
+      false
+    end
   end
 end

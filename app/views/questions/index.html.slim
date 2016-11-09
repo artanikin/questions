@@ -9,12 +9,13 @@ table.table
     - @questions.each do |question|
       tr
         td.clearfix
-          ul.list-unstyled.raiting
-            li = link_to vote_up_question_path(question), remote: true, method: :patch, class: 'vote_up' do
-              i.glyphicon.glyphicon-chevron-up
-            li.question-raiting = question.raiting
+          ul.list-unstyled.rating_block
+            li = link_to vote_up_question_path(question), remote: true, method: :patch, data: { type: :json }, class: 'vote_up' do
+              i.glyphicon.glyphicon-chevron-up aria-hidden="true"
+            li.rating = question.rating
             li = link_to vote_down_question_path(question), remote: true, method: :patch do
               i.glyphicon.glyphicon-chevron-down aria-hidden="true"
+
           = link_to question.title, question
         td
           - if user_signed_in? && current_user.author?(question)

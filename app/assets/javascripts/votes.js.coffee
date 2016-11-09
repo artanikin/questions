@@ -1,9 +1,16 @@
-$('.vote_up').on 'ajax:success', (e, data, status, xhr) ->
-  console.log('success')
-    # answer = $.parseJSON(xhr.responseText)
-    # $('.answers').append('<p>' + answer.body + '</p>')
+$ ->
+
+  $('.vote_up').on 'ajax:success', (e, data, status, xhr) ->
+    response_data = $.parseJSON(xhr.responseText)
+    rating_block = $(this).closest('.rating_block')
+    rating_block.find('.rating').html(response_data.rating)
+
+    $('#flash').html('<div class="alert alert-success">' + response_data.message + '</div>')
+  
   .on 'ajax:error', (e, xhr, status, error) ->
-    console.log('error')
-    # errors = $.parseJSON(xhr.responseText)
-    # $.each errors, (index, value) ->
-    #   $('.answer-errors').append(value)
+    errors = $.parseJSON(xhr.responseText)
+    message = ''
+    $.each errors, (index, value) ->
+      message += '<p>' + value + '</p>'
+
+    $('#flash').html('<div class="alert alert-danger">' + message + '</div>')

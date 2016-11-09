@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :update, :destroy]
 
   def index
-    @questions = Question.with_raiting
+    @questions = Question.with_rating
   end
 
   def show
@@ -51,13 +51,17 @@ class QuestionsController < ApplicationController
 
   def vote_up
     @question = Question.find(params[:id])
+
     respond_to do |format|
-      if current_user.author?(@question)
-        flash[:danger] = 'You can not vote your question'
+      @vote = @question.votes.build(author_id: current_user.id, value: 1)
+
+      if @vote.save
+        message = 'You voted the question'
+        format.json { render json: { rating: @question.evaluation, message: message } }
       else
-        @vote = @question.vote_up(current_user)
-        flash[:success] = 'You voted the question'
-        format.json { render json: @vote  }
+        format.json do
+          render json: { error: @vote.errors.messages.values }, status: :unprocessable_entity
+        end
       end
     end
   end
