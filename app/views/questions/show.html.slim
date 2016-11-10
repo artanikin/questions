@@ -1,7 +1,7 @@
 .jumbotron = render @question
 
 - unless @question.answers.empty?
-  #answers= render @question.answers
+  #answers= render @question.answers.with_rating
 
 
 - if user_signed_in?

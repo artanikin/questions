@@ -1,4 +1,4 @@
 ul.list-unstyled.rating_block
   li = vote_link(obj, 'up')
-  li.rating = obj.rating
+  li.rating = obj.rating rescue '0'
   li = vote_link(obj, 'down')

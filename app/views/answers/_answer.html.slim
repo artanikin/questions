@@ -1,5 +1,7 @@
 - if answer.persisted?
-  div.answer id = "answer_#{answer.id}"
+  div.answer.clearfix id = "answer_#{answer.id}"
+    = render 'shared/votes_panel', obj: answer
+
     ul.list-inline
       - if answer.best?
         li
