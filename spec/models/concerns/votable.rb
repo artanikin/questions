@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples_for 'votable' do
   let(:first_user) { create(:user) }
   let(:second_user) { create(:user) }
