@@ -7,10 +7,8 @@ shared_examples_for 'votable' do
 
   it { should have_many(:votes) }
 
-  describe "#with_rating" do
-    let(:model) { create(described_class.to_s.underscore.to_sym) }
-
-    it "has field rating" do
+  describe '#with_rating' do
+    it 'has field rating' do
       create(:vote, votable: model, value: 1, author: first_user)
       expect(described_class.with_rating.first.has_attribute?(:rating)).to be(true)
     end
