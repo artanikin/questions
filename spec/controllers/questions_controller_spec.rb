@@ -231,6 +231,11 @@ RSpec.describe QuestionsController, type: :controller do
         it 'can vote up' do
           expect { subject }.to change(question.votes, :count).by(1)
         end
+
+        it 'can unvote' do
+          question.votes.create(author: @user, value: 1)
+          expect { subject }.to change(question.votes, :count).by(-1)
+        end
       end
 
       context 'author the question' do
@@ -248,6 +253,49 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'Unauthorized user' do
       it 'can not vote up' do
+        expect { subject }.to_not change(question.votes, :count)
+      end
+
+      it 'get 401 status Unauthorized' do
+        expect(subject).to have_http_status(401)
+      end
+    end
+  end
+
+  describe 'PATCH #vote_down' do
+    let(:question) { create(:question) }
+    let(:parameters) { {id: question.id, format: :json} }
+    subject { patch :vote_down, params: parameters }
+
+    describe 'Authorized user' do
+      sign_in_user
+
+      context 'not author the question' do
+        it 'can vote down' do
+          expect { subject }.to change(question.votes, :count).by(1)
+        end
+
+        it 'can unvote' do
+          question.votes.create(author: @user, value: -1)
+          expect { subject }.to change(question.votes, :count).by(-1)
+        end
+      end
+
+      context 'author the question' do
+        before { question.update(author_id: @user.id) }
+
+        it 'can not vote down' do
+          expect { subject }.to_not change(question.votes, :count)
+        end
+
+        it 'get 422 status :unprocessable_entity' do
+          expect(subject).to have_http_status(422)
+        end
+      end
+    end
+
+    describe 'Unauthorized user' do
+      it 'can not vote down' do
         expect { subject }.to_not change(question.votes, :count)
       end
 

@@ -50,23 +50,39 @@ class QuestionsController < ApplicationController
   end
 
   def vote_up
+    vote(1)
+  end
+
+  def vote_down
+    vote(-1)
+  end
+
+  private
+
+  def vote(value)
     @question = Question.find(params[:id])
 
     respond_to do |format|
-      @vote = @question.votes.build(author_id: current_user.id, value: 1)
+      @vote = @question.votes.find_or_initialize_by(author_id: current_user.id)
 
-      if @vote.save
-        message = 'You voted the question'
+      if @vote.persisted? && @vote.value == value
+        @vote.destroy
+        message = 'You unvoted for question'
         format.json { render json: { rating: @question.evaluation, message: message } }
       else
-        format.json do
-          render json: { error: @vote.errors.messages.values }, status: :unprocessable_entity
+        @vote.value = value
+
+        if @vote.save
+          message = 'You voted for question'
+          format.json { render json: { rating: @question.evaluation, message: message } }
+        else
+          format.json do
+            render json: { error: @vote.errors.messages.values }, status: :unprocessable_entity
+          end
         end
       end
     end
   end
-
-  private
 
   def set_question
     @question = Question.find(params[:id])

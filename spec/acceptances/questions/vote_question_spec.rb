@@ -37,7 +37,7 @@ feature 'Vote for question', %(
     end
 
     describe 'as not author this question' do
-      scenario 'can up vote', :js do
+      scenario 'can vote up', :js do
         visit questions_path
 
         within '.rating_block' do
@@ -45,10 +45,48 @@ feature 'Vote for question', %(
 
           expect(page).to have_content '1'
         end
-        expect(page).to have_content 'You voted the question'
+        expect(page).to have_content 'You voted for question'
       end
 
-      scenario 'can down vote'
+      scenario 'can vote down', :js do
+        visit questions_path
+
+        within '.rating_block' do
+          find(:css, '.glyphicon-chevron-down').click
+
+          expect(page).to have_content '-1'
+        end
+        expect(page).to have_content 'You voted for question'
+      end
+
+      scenario 'can change vote', :js do
+        question.votes.create(author: user, value: 1)
+        visit questions_path
+
+        within '.rating_block' do
+          expect(page).to have_content '1'
+
+          find(:css, '.glyphicon-chevron-down').click
+
+          expect(page).to have_content '-1'
+        end
+        expect(page).to have_content 'You voted for question'
+      end
+
+      scenario 'can unvote', :js do
+        question.votes.create(author: user, value: 1)
+        visit questions_path
+
+        within '.rating_block' do
+          expect(page).to have_content '1'
+
+          find(:css, '.glyphicon-chevron-up').click
+
+          expect(page).to have_content '0'
+        end
+        expect(page).to have_content 'You unvoted for question'
+      end
     end
+
   end
 end

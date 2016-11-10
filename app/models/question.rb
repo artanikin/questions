@@ -12,17 +12,18 @@ class Question < ApplicationRecord
     left_joins(:votes)
       .select('questions.*, COALESCE(SUM(votes.value), 0) AS rating')
       .group('questions.id, votes.votable_type, votes.votable_id')
+      .order('created_at ASC')
   end
 
   def evaluation
     votes.sum(:value)
   end
 
-  def vote_up(user)
-    if !user.author?(self) && votes.create(author: user, value: 1)
-      true
-    else
-      false
-    end
-  end
+  # def vote_up(user)
+  #   if !user.author?(self) && votes.create(author: user, value: 1)
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
 end

@@ -13,7 +13,7 @@ table.table
             li = link_to vote_up_question_path(question), remote: true, method: :patch, data: { type: :json }, class: 'vote_up' do
               i.glyphicon.glyphicon-chevron-up aria-hidden="true"
             li.rating = question.rating
-            li = link_to vote_down_question_path(question), remote: true, method: :patch do
+            li = link_to vote_down_question_path(question), remote: true, method: :patch, data: { type: :json }, class: 'vote_down' do
               i.glyphicon.glyphicon-chevron-down aria-hidden="true"
 
           = link_to question.title, question
