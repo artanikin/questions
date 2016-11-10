@@ -5,7 +5,6 @@ vote = ->
     rating_block.find('.rating').html(response_data.rating)
 
     $('#flash').html('<div class="alert alert-success">' + response_data.message + '</div>')
-    alert('s')
 
   .on 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
@@ -14,7 +13,6 @@ vote = ->
       message += '<p>' + value + '</p>'
 
     $('#flash').html('<div class="alert alert-danger">' + message + '</div>')
-    alert('a')
 
 $(document).ready(vote)
 $(document).on('page:load', vote)
