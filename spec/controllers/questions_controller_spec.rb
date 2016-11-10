@@ -221,16 +221,15 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #vote_up' do
     let(:question) { create(:question) }
-    let(:parameters) do
-      { id: question.id, format: :json }
-    end
+    let(:parameters) { {id: question.id, format: :json} }
+    subject { patch :vote_up, params: parameters }
 
     describe 'Authorized user' do
       sign_in_user
 
       context 'not author the question' do
         it 'can vote up' do
-          expect { patch :vote_up, params: parameters }.to change(question.votes, :count).by(1)
+          expect { subject }.to change(question.votes, :count).by(1)
         end
       end
 
@@ -238,26 +237,23 @@ RSpec.describe QuestionsController, type: :controller do
         before { question.update(author_id: @user.id) }
 
         it 'can not vote up' do
-          expect { patch :vote_up, params: parameters }.to_not change(question.votes, :count)
+          expect { subject }.to_not change(question.votes, :count)
         end
 
         it 'get 422 status :unprocessable_entity' do
-          patch :vote_up, params: parameters
-          expect(response.status).to eq 422
+          expect(subject).to have_http_status(422)
         end
       end
     end
 
     describe 'Unauthorized user' do
       it 'can not vote up' do
-        expect { patch :vote_up, params: parameters }.to_not change(question.votes, :count)
+        expect { subject }.to_not change(question.votes, :count)
       end
 
       it 'get 401 status Unauthorized' do
-        patch :vote_up, params: parameters
-        expect(response.status).to eq 401
+        expect(subject).to have_http_status(401)
       end
     end
   end
-
 end
