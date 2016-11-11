@@ -7,8 +7,8 @@ module ApplicationHelper
       class: "vote_#{vote_type}"
     }
 
-    link_to(send("vote_#{vote_type}_#{obj.class.name.underscore}_path", obj), options) do
-      content_tag(:i, nil, class: "glyphicon glyphicon-chevron-#{vote_type}", aria: {hidden: true})
+    link_to(polymorphic_path(["vote_#{vote_type}", obj]), options) do
+      content_tag(:i, nil, class: "glyphicon glyphicon-chevron-#{vote_type}", aria: { hidden: true })
     end.html_safe
   end
 end
