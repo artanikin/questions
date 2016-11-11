@@ -5,7 +5,7 @@ RSpec.describe Vote, type: :model do
   it { should belong_to :author }
 
   it { should validate_inclusion_of(:votable_type).in_array(%w(Question Answer)) }
-  it { should validate_inclusion_of(:value).in_array([-1,1]) }
+  it { should validate_inclusion_of(:value).in_array([-1, 1]) }
 
   it do
     subject.author = create(:user)
@@ -20,6 +20,6 @@ RSpec.describe Vote, type: :model do
     vote = question.votes.build(author_id: user.id, value: 1)
     vote.valid?
 
-    expect(vote.errors[:author_id]).to eq(["You can not vote for your question"])
+    expect(vote.errors[:author_id]).to eq(['You can not vote for your question'])
   end
 end
