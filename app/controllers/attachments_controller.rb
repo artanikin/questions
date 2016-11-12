@@ -5,9 +5,9 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
     if current_user.author?(@attachment.attachable)
       @attachment.destroy
-      flash.now[:notice] = 'File was deleted'
+      flash.now[:success] = 'File was deleted'
     else
-      flash.now[:alert] = 'File not deleted'
+      flash.now[:danger] = 'File not deleted'
     end
   end
 end

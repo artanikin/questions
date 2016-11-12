@@ -1,21 +1,25 @@
-div.answer id = "answer_#{answer.id}"
-  - if answer.persisted?
-    - if answer.best?
-      strong Best answer
+- if answer.persisted?
+  div.answer.clearfix id = "answer_#{answer.id}"
+    = render 'shared/votes_panel', obj: answer
 
-    - if user_signed_in?
-      - if !answer.best? && current_user.author?(answer.question)
-        = link_to 'Best', best_answer_path(answer), method: :patch, remote: true
-      - if current_user.author?(answer)
-        |  |
-        = link_to 'Edit', '', class: 'edit_answer_link', data: { answer_id: answer.id }
-        |  |
-        = link_to 'Remove answer', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }
-        p
-          = form_for answer, remote: true do |f|
-            = f.label :body, 'Answer'
-            = f.text_area :body
-            = f.submit 'Save'
+    ul.list-inline
+      - if answer.best?
+        li
+          strong Best answer
+      - if user_signed_in?
+        - if !answer.best? && current_user.author?(answer.question)
+          li= link_to 'Best', best_answer_path(answer), method: :patch, remote: true, class: 'btn btn-success btn-sm'
+        - if current_user.author?(answer)
+          li= link_to 'Edit', '', class: 'edit_answer_link btn btn-primary btn-sm', data: { answer_id: answer.id }
+          li= link_to 'Remove answer', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+        = form_for answer, remote: true do |f|
+          fieldset
+            .form-group
+              = f.label :body, 'Answer'
+              = f.text_area :body, class: 'form-control'
+            = render 'shared/nested_form/attachments_form', f: f
+            .form-group
+              = f.submit 'Save', class: 'btn btn-primary'
 
     p= answer.body
     = render partial: 'shared/nested_form/attachments', locals: { obj: answer }

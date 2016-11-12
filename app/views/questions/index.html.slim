@@ -1,9 +1,17 @@
-p= link_to 'Ask question', new_question_path
+p= link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
-- @questions.each do |question|
-  p
-    = link_to question.title, question
-    - if user_signed_in? && current_user.author?(question)
-      |  (
-      = link_to 'Remove question', question, method: :delete, data: {confirm: 'Are you sure?'}
-      | )
+table.table
+  thead
+    tr
+      th Question
+      th
+  tbody
+    - @questions.each do |question|
+      tr
+        td.clearfix
+          = render 'shared/votes_panel', obj: question
+          = link_to question.title, question
+        td
+          - if user_signed_in? && current_user.author?(question)
+            = link_to 'Remove question', question,
+              method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm'

@@ -1,15 +1,17 @@
-= render @question
+.jumbotron = render @question
 
 - unless @question.answers.empty?
-  #answers= render @question.answers
+  #answers= render @question.answers.with_rating
 
 
 - if user_signed_in?
   = form_for [@question, @answer], remote: true do |f|
-    p
-      = f.label :body
-      = f.text_area :body
-    = render 'shared/nested_form/attachments_form', f: f
-    p = f.submit
+    fieldset
+      .form-group
+        = f.label :body
+        = f.text_area :body, class: 'form-control'
+      = render 'shared/nested_form/attachments_form', f: f
+      .form-group
+      = f.submit class: 'btn btn-primary'
 - else
    p To answer the question log in

@@ -13,7 +13,7 @@ feature 'Delete answer attachment', %(
 
   scenario 'Unauthenticate user not see remove link' do
     visit question_path(question)
-    expect(page).to_not have_link('[x]')
+    expect(page).to_not have_link('x')
   end
 
   describe 'Authorized user' do
@@ -22,10 +22,10 @@ feature 'Delete answer attachment', %(
       visit question_path(question)
 
       within '#answers .attachments' do
-        click_on '[x]'
+        click_on 'x'
       end
 
-      expect(page).to_not have_link('[x]', href: '/uploads/attachment/file/1/spec_helper.rb')
+      expect(page).to_not have_link('x', href: '/uploads/attachment/file/1/spec_helper.rb')
       expect(page).to have_content 'File was deleted'
     end
 
@@ -33,7 +33,7 @@ feature 'Delete answer attachment', %(
       question.update(author: create(:user))
       visit question_path(question)
 
-      expect(page).to_not have_link('[x]')
+      expect(page).to_not have_link('x')
     end
   end
 end

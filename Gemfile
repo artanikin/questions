@@ -16,13 +16,16 @@ gem 'devise'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
+gem 'bootstrap-sass', '~> 3.3.6'
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
   gem 'pry-byebug'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'spring-commands-rspec'
 end
 
 group :test do
@@ -31,6 +34,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'fuubar'
+  gem 'rack_session_access'
 end
 
 group :development do
