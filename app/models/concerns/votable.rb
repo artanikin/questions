@@ -15,4 +15,34 @@ module Votable
   def evaluation
     votes.sum(:value)
   end
+
+  def vote_up(user)
+    vote(user, 1)
+  end
+
+  def vote_down(user)
+    vote(user, -1)
+  end
+
+  private
+
+  def vote(user, value)
+    vote = votes.find_or_initialize_by(author_id: user.id)
+
+    if vote.need_unvote?(value)
+      vote.destroy
+      messages = "You unvoted for #{self.class.name.underscore}"
+    else
+      vote.value = value
+
+      if vote.save
+        messages = "You voted for #{self.class.name.underscore}"
+      else
+        has_errors = true
+        messages = vote.errors.messages.values
+      end
+    end
+
+    [ has_errors, messages ]
+  end
 end

@@ -8,4 +8,8 @@ class Vote < ApplicationRecord
   validates :author_id,
     uniqueness: { scope: [:votable_type, :votable_id], message: 'You have already voted' },
     not_votable_author: true
+
+  def need_unvote?(value)
+    persisted? && self.value == value
+  end
 end

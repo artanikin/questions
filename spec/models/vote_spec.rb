@@ -22,4 +22,20 @@ RSpec.describe Vote, type: :model do
 
     expect(vote.errors[:author_id]).to eq(['You can not vote for your question'])
   end
+
+  describe '#need_unvote?' do
+    let(:john) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:question) { create(:question, author_id: john.id) }
+
+    it 'need' do
+      vote = create(:vote, votable: question, author_id: bob.id, value: 1)
+      expect(vote.need_unvote?(1)).to eq(true)
+    end
+
+    it 'not needed' do
+      vote = question.votes.build(author_id: bob.id, value: -1)
+      expect(vote.need_unvote?(1)).to eq(false)
+    end
+  end
 end

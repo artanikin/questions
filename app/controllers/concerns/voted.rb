@@ -6,34 +6,23 @@ module Voted
   end
 
   def vote_up
-    vote(1)
+    has_errors, messages = @votable.vote_up(current_user)
+    render_vote_json(has_errors, messages)
   end
 
   def vote_down
-    vote(-1)
+    has_errors, messages = @votable.vote_down(current_user)
+    render_vote_json(has_errors, messages)
   end
 
   private
 
-  def vote(value)
-    vote = @votable.votes.find_or_initialize_by(author_id: current_user.id)
-
-    if vote.persisted? && vote.value == value
-      vote.destroy
-      render_vote_json_with_message(@votable, "You unvoted for #{param_name(@votable)}")
+  def render_vote_json(has_errors, messages)
+    if has_errors
+      render json: { error: messages }, status: :unprocessable_entity
     else
-      vote.value = value
-
-      if vote.save
-        render_vote_json_with_message(@votable, "You voted for #{param_name(@votable)}")
-      else
-        render json: { error: vote.errors.messages.values }, status: :unprocessable_entity
-      end
+      render json: { rating: @votable.evaluation, message: messages }
     end
-  end
-
-  def render_vote_json_with_message(item, message)
-    render json: { rating: item.evaluation, message: message }
   end
 
   def model_klass
