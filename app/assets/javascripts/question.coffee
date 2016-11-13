@@ -4,3 +4,9 @@ $ ->
     question_id = $(this).data('questionId')
     $('form#edit_question_' + question_id).show()
     e.preventDefault()
+
+    console.log 'Temp'
+    App.cable.subscriptions.create('QuestionsChannel', {
+      connected: ->
+        console.log 'Connected!'
+    })
