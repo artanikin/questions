@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module Questions
   class Application < Rails::Application
+    config.action_cable.disable_request_forgery_protection = false
+
     config.generators do |g|
       g.test_framework :rspec,
                        fixtures: true,
