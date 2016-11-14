@@ -8,6 +8,36 @@ feature 'Create question', %(
 
   given(:user) { create(:user) }
 
+  feature "multiple sessions", :js do
+    scenario "question appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Title placeholder'
+        fill_in 'Body', with: 'Placeholder for body'
+        click_on 'Create'
+
+        expect(page).to have_content 'Title placeholder'
+        expect(page).to have_content 'Placeholder for body'
+      end
+
+      Capybara.using_session('guest') do
+        save_and_open_page
+        expect(page).to have_content 'Title placeholder'
+      end
+    end
+  end
+
+
   feature 'Authenticated user' do
     before do
       sign_in(user)
@@ -26,31 +56,6 @@ feature 'Create question', %(
       expect(page).to have_content 'Placeholder for body'
       expect(current_path).to eq question_path(Question.last)
     end
-
-    # context "multiple sessions" do
-    #   scenario "question appears on another user's page" do
-    #     # Capybara.using_session('quest') do
-    #     #   save_and_open_page
-    #     #   click_on 'Sign out'
-    #     # end
-
-    #     Capybara.using_session('user') do
-    #       sign_in(user)
-    #       visit questions_path
-    #       click_on 'Ask question'
-
-    #       fill_in 'Title', with: 'Title placeholder'
-    #       fill_in 'Body', with: 'Placeholder for body'
-    #       click_on 'Create'
-    #     end
-
-    #     Capybara.using_session('quest') do
-    #       expect(page).to have_content 'Title placeholder'
-    #       expect(page).to have_content 'Placeholder for body'
-    #     end
-
-    #   end
-    # end
 
     scenario 'can not create question with invalid attributes' do
       fill_in 'Title', with: ''

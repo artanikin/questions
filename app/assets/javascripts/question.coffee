@@ -13,5 +13,5 @@ $ ->
     ,
     received: (data) ->
       data = $.parseJSON(data)
-      questions_list.prepend(JST['templates/question_list'](data.question))
+      questions_list.append(JST['templates/question_list'](data.question))
   })
