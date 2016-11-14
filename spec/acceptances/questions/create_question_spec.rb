@@ -27,7 +27,32 @@ feature 'Create question', %(
       expect(current_path).to eq question_path(Question.last)
     end
 
-    scenario 'can not create question with valid attributes' do
+    # context "multiple sessions" do
+    #   scenario "question appears on another user's page" do
+    #     # Capybara.using_session('quest') do
+    #     #   save_and_open_page
+    #     #   click_on 'Sign out'
+    #     # end
+
+    #     Capybara.using_session('user') do
+    #       sign_in(user)
+    #       visit questions_path
+    #       click_on 'Ask question'
+
+    #       fill_in 'Title', with: 'Title placeholder'
+    #       fill_in 'Body', with: 'Placeholder for body'
+    #       click_on 'Create'
+    #     end
+
+    #     Capybara.using_session('quest') do
+    #       expect(page).to have_content 'Title placeholder'
+    #       expect(page).to have_content 'Placeholder for body'
+    #     end
+
+    #   end
+    # end
+
+    scenario 'can not create question with invalid attributes' do
       fill_in 'Title', with: ''
       fill_in 'Body', with: ''
       click_on 'Create'

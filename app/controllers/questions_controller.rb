@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.with_rating
+    gon.question = Question.last
   end
 
   def show

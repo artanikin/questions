@@ -1,0 +1,10 @@
+ul.list-unstyled.rating_block
+  - if gon.user_id && (@votable.author_id != gon.user_id)
+    li
+      a.vote_up href="#{@path}/vote_up" data-method="patch" data-remote="true" data-type="json" rel="nofollow"
+        i.glyphicon.glyphicon-chevron-up aria-hidden=true
+  li.rating 0
+  - if gon.user_id && (@votable.author_id != gon.user_id)
+    li
+      a.vote_up href="#{@path}/vote_down" data-method="patch" data-remote="true" data-type="json" rel="nofollow"
+        i.glyphicon.glyphicon-chevron-down aria-hidden=true

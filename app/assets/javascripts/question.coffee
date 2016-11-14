@@ -12,10 +12,6 @@ $ ->
       @perform 'follow'
     ,
     received: (data) ->
-      console.log data
-      question = $.parseJSON(data)
-      console.log '-----------------'
-      console.log question
-      # questions_list.append('<tr><td>' + data + '</td><td></td></tr>')
-      questions_list.prepend(JST['templates/question_list']({question: question}))
+      data = $.parseJSON(data)
+      questions_list.prepend(JST['templates/question_list'](data.question))
   })

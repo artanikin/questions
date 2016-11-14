@@ -1,10 +1,7 @@
 tr
   td.clearfix
-    /= render 'shared/votes_panel', obj: question
-    /= link_to question.title, question
-    / a href='' #{@title}
-    p #{@question.inspect}
+    == JST['templates/shared/votes'](votable: @, path: "questions/#{@id}")
+    a href="questions/#{@id}" #{@title}
   td
-    /- if user_signed_in? && current_user.author?(question)
-    /  = link_to 'Remove question', question,
-    /          method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm'
+    - if @author_id == gon.user_id
+      a.btn.btn-danger.btn-sm data-remote='true' data-method='delete' data-confirm='Are you sure?' rel='nofollow' href="/questions/#{@id}" Remove question
