@@ -1,8 +1,6 @@
 $ ->
   questions_list = $('.questions-list tbody')
 
-  questions_list.prepend(JST['templates/question_list']({title: 'Skim questions'}))
-
   $('.edit-question-link').click (e) ->
     $(this).hide()
     question_id = $(this).data('questionId')
@@ -14,5 +12,10 @@ $ ->
       @perform 'follow'
     ,
     received: (data) ->
-      questions_list.append('<tr><td>' + data + '</td><td></td></tr>')
+      console.log data
+      question = $.parseJSON(data)
+      console.log '-----------------'
+      console.log question
+      # questions_list.append('<tr><td>' + data + '</td><td></td></tr>')
+      questions_list.prepend(JST['templates/question_list']({question: question}))
   })

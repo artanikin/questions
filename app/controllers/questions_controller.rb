@@ -60,7 +60,7 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
     ActionCable.server.broadcast(
       'questions',
-      @question.title
+      ApplicationController.render(json: { question: @question })
     )
   end
 
