@@ -2,7 +2,7 @@ ul.attachments.list-inline
   - obj.attachments.each do |a|
     li class = "attachment_#{a.id}"
       = link_to a.file.filename, a.file.url
-      |  
+      | &nbsp;
       - if user_signed_in? && current_user.author?(obj)
         span.remove_attachment_btn
           = link_to 'x', attachment_path(a), method: :delete, remote: true, data: { confirm: 'Are you sure?' }

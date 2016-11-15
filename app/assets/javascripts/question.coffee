@@ -9,7 +9,10 @@ $ ->
 
   App.cable.subscriptions.create('QuestionsChannel', {
     connected: ->
-      @perform 'follow'
+      if questions_list.length
+        @perform 'follow'
+      else
+        @perform 'unfollow'
     ,
     received: (data) ->
       data = $.parseJSON(data)

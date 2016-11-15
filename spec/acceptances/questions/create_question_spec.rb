@@ -31,7 +31,6 @@ feature 'Create question', %(
       end
 
       Capybara.using_session('guest') do
-        save_and_open_page
         expect(page).to have_content 'Title placeholder'
       end
     end
