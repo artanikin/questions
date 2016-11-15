@@ -1,0 +1,19 @@
+form action="/answers/#{@id}" id="answer_form_#{@id}"
+  input name="utf8" type="hidden" value="✓"
+  input type="hidden" name="_method" value="patch"
+
+  fieldset
+    .form-group
+      label for="answer_body" Answer
+      textarea.form-control name="answer[body]" id="answer_body"= @body
+    .form-group
+      input.btn.btn-primary type="submit" name="commit" value="Save" data-disable-with="Save"
+
+    /     = form_for answer, remote: true do |f|
+    /       fieldset
+    /         .form-group
+    /           = f.label :body, 'Answer'
+    /           = f.text_area :body, class: 'form-control'
+    /         = render 'shared/nested_form/attachments_form', f: f
+    /         .form-group
+    /           = f.submit 'Save', class: 'btn btn-primary'
