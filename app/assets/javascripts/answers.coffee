@@ -1,7 +1,7 @@
 $ ->
   answers_list = $("#answers")
 
-  $('.edit_answer_link').click (e) ->
+  answers_list.on 'click', '.edit_answer_link', (e) ->
     e.preventDefault()
     $(this).hide()
     answer_id = $(this).data('answerId')
@@ -13,5 +13,5 @@ $ ->
     ,
     received: (data) ->
       data = $.parseJSON(data)
-      answers_list.append(JST["templates/answer"](data.answer))
+      answers_list.append(JST["templates/answer"](data))
   })

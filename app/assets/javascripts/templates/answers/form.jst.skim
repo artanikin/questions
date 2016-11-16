@@ -1,16 +1,25 @@
-form action="/answers/#{@id}" id="answer_form_#{@id}" enctype="multipart/form-data"
+form.edit_answer action="/answers/#{@answer.id}" id="answer_form_#{@answer.id}" enctype="multipart/form-data"
   input name="utf8" type="hidden" value="✓"
   input type="hidden" name="_method" value="patch"
 
   fieldset
     .form-group
       label for="answer_body" Answer
-      textarea.form-control name="answer[body]" id="answer_body"= @body
+      textarea.form-control name="answer[body]" id="answer_body"= @answer.body
 
     p Attachments:
     .attachment_form_fields
+      - i = 0
+      - for attachment in @attachments
+        .nested_fields
+          .field = attachment.file.url.substring(attachment.file.url.lastIndexOf('/')+1)
+          input type="hidden" value="false" name="answer[attachments_attributes][#{i}][_destroy]" id="answer_attachments_attributes_#{i}__destroy"
+          a.remove_fields.existing data-wrapper-class="nested_fields" href="#" remove file
+        input type="hidden" value="#{attachment.id}" name="answer[attachments_attributes][#{i}][id]" id="answer_attachments_attributes_#{i}_id"
+        - i++
+
       .links
-        a.add_fields data-association="attachment" data-associations="attachments" data-association-insertion-template="<div class=&quot;nested_fields&quot;><div class=&quot;field&quot;><label for=&quot;answer_attachments_attributes_new_attachments_file&quot;>File</label><input type=&quot;file&quot; name=&quot;answer[attachments_attributes][new_attachments][file]&quot; id=&quot;answer_attachments_attributes_new_attachments_file&quot; /></div><input type=&quot;hidden&quot; name=&quot;answer[attachments_attributes][new_attachments][_destroy]&quot; id=&quot;answer_attachments_attributes_new_attachments__destroy&quot; value=&quot;false&quot; /><a class=&quot;remove_fields dynamic&quot; data-wrapper-class=&quot;nested_fields&quot; href=&quot;#&quot;>remove file</a></div>" href="#" add file
+        a.add_fields data-association="attachment" data-associations="attachments" data-association-insertion-template="<div class='nested_fields'><div class='field'><label for='answer_attachments_attributes_new_attachments_file'>File</label><input type='file' name='answer[attachments_attributes][new_attachments][file]' id='answer_attachments_attributes_new_attachments_file' /></div><input type='hidden' name='answer[attachments_attributes][new_attachments][_destroy]' id='answer_attachments_attributes_new_attachments__destroy' value='false' /><a class='remove_fields dynamic' data-wrapper-class='nested_fields' href='#'>remove file</a></div>" href="#" add file
 
     .form-group
       input.btn.btn-primary type="submit" name="commit" value="Save" data-disable-with="Save"

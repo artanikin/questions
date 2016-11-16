@@ -1,0 +1,7 @@
+ul.attachments.list-inline
+  - for attachment in @
+    li class="attachment_#{attachment.id}"
+      a href="#{attachment.file.url}" = attachment.file.url.substring(attachment.file.url.lastIndexOf('/')+1)
+      | &nbsp;
+      span class="remove_attachment_btn"
+        a href="/attachments/#{attachment.id}" data-remote="true" data-method="delete" data-confirm="Are you sure?" rel="nofollow" x
