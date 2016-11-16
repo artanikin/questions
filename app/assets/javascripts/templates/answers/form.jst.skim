@@ -1,4 +1,4 @@
-form action="/answers/#{@id}" id="answer_form_#{@id}"
+form action="/answers/#{@id}" id="answer_form_#{@id}" enctype="multipart/form-data"
   input name="utf8" type="hidden" value="✓"
   input type="hidden" name="_method" value="patch"
 
@@ -6,14 +6,11 @@ form action="/answers/#{@id}" id="answer_form_#{@id}"
     .form-group
       label for="answer_body" Answer
       textarea.form-control name="answer[body]" id="answer_body"= @body
+
+    p Attachments:
+    .attachment_form_fields
+      .links
+        a.add_fields data-association="attachment" data-associations="attachments" data-association-insertion-template="<div class=&quot;nested_fields&quot;><div class=&quot;field&quot;><label for=&quot;answer_attachments_attributes_new_attachments_file&quot;>File</label><input type=&quot;file&quot; name=&quot;answer[attachments_attributes][new_attachments][file]&quot; id=&quot;answer_attachments_attributes_new_attachments_file&quot; /></div><input type=&quot;hidden&quot; name=&quot;answer[attachments_attributes][new_attachments][_destroy]&quot; id=&quot;answer_attachments_attributes_new_attachments__destroy&quot; value=&quot;false&quot; /><a class=&quot;remove_fields dynamic&quot; data-wrapper-class=&quot;nested_fields&quot; href=&quot;#&quot;>remove file</a></div>" href="#" add file
+
     .form-group
       input.btn.btn-primary type="submit" name="commit" value="Save" data-disable-with="Save"
-
-    /     = form_for answer, remote: true do |f|
-    /       fieldset
-    /         .form-group
-    /           = f.label :body, 'Answer'
-    /           = f.text_area :body, class: 'form-control'
-    /         = render 'shared/nested_form/attachments_form', f: f
-    /         .form-group
-    /           = f.submit 'Save', class: 'btn btn-primary'

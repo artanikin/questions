@@ -11,7 +11,9 @@ div.answer.clearfix id = "answer_#{@id}"
         a.edit_answer_link.btn.btn-primary.btn-sm data-answer_id="#{@id}" href="/answers/#{@id}/edit" Edit
       li
         a.btn.btn-danger.btn-sm data-method="delete" data-remote="true" data-confirm="Are you sure?" href="/answer/#{@id}" Remove answer
-      == JST["templates/answers/form"](@)
+
+  - if gon.user_id == @author_id
+    == JST["templates/answers/form"](@)
 
   p= @body
 
