@@ -40,6 +40,7 @@ class AnswersController < ApplicationController
 
   def best
     @answer.mark_as_best
+    @answer.comments.build
     flash.now[:success] = 'Answer mark as Best'
   end
 
