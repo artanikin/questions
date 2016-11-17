@@ -1,0 +1,4 @@
+.errors_block
+  ul
+    - for error in @errors
+      li = error

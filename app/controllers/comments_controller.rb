@@ -6,9 +6,11 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.build(comment_params.merge(author_id: current_user.id))
 
     if @comment.save
-      flash[:success] = "Your comment successfully added"
+      message = "Your comment successfully added"
+      render json: { comment: @comment, message: message }
     else
-      flash[:danger] = "Your comment not added"
+      message = "Your comment not added"
+      render json: { errors: @comment.errors, message: message }, status: :unprocessable_entity
     end
   end
 

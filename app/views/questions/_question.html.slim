@@ -10,11 +10,18 @@
     = render partial: 'shared/nested_form/attachments', locals: { obj: question }
 
   .comments
-    = link_to 'add comment', '', class: 'add_comment_link'
+    .comments-list
+      - question.comments.each do |comment|
+        - if comment.persisted?
+          .comment= comment.body
 
-    = form_for [question, @comment], remote: true do |f|
-      .form-group
-        = f.label :body, 'Your Comment'
-        = f.text_area :body, class: 'form-control'
+    .comment-new
+      - if user_signed_in?
+        = link_to 'add comment', '', class: 'add_comment_link'
 
-      = f.submit class: 'btn btn-primary'
+        = form_for [question, @comment], remote: true do |f|
+          .form-group
+            = f.label :body, 'Your Comment'
+            = f.text_area :body, class: 'form-control'
+
+          = f.submit 'Save', class: 'btn btn-primary'

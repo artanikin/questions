@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe CommentsController, type: :controller do
-
   describe "POST #create" do
     let!(:question) { create(:question) }
     let(:parameters) do
@@ -38,7 +37,7 @@ RSpec.describe CommentsController, type: :controller do
 
     context "Unauthorized user" do
       it "can't add comment" do
-        expect{ subject }.to_not change(question.comments, :count)
+        expect { subject }.to_not change(question.comments, :count)
       end
 
       it "get 401 status Unauthorized" do
