@@ -20,7 +20,7 @@ feature 'Delete question attachment', %(
       sign_in(user)
       visit question_path(question)
 
-      within '.question > .attachments' do
+      within '.question .attachments' do
         click_on 'x'
       end
 

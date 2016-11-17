@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = @question.answers.build
     @answer.attachments.build
+    @comment = @question.comments.build
   end
 
   def new
@@ -37,6 +38,7 @@ class QuestionsController < ApplicationController
     if current_user.author?(@question)
       if @question.update(question_params)
         flash.now[:success] = 'Your question successfully updated'
+        @comment = @question.comments.build
       else
         flash.now[:danger] = 'Your question not updated'
       end
