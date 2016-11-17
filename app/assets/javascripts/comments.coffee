@@ -30,3 +30,16 @@ $ ->
       message_type: "danger",
       message: responseData.message
     ))
+
+  App.cable.subscriptions.create("CommentsChannel", {
+    connected: ->
+      questionId = $(".question").data("questionId")
+      if questionId
+        @perform "follow", question_id: questionId
+      else
+        @perform "unfollow"
+    ,
+    received: (data) ->
+      data = $.parseJSON(data)
+      $(".question .comments .comments-list").append(JST["templates/comment"](comment: data.comment))
+  })
