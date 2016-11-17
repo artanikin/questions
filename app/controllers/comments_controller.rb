@@ -17,7 +17,8 @@ class CommentsController < ApplicationController
   private
 
   def set_commentable
-    @commentable = Question.find(params[:question_id])
+    klass = [Question, Answer].detect { |obj| params["#{obj.name.underscore}_id"] }
+    @commentable = klass.find(params["#{klass.name.underscore}_id"])
   end
 
   def comment_params
