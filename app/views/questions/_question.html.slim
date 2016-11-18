@@ -1,4 +1,4 @@
-.question data-question-id="#{question.id}"
+.question id="question_#{question.id}" data-question-id="#{question.id}"
   .question-show
     = render 'shared/votes_panel', obj: question
     - if user_signed_in? && current_user.author?(question)

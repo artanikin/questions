@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   answers_list = $("#answers")
 
   answers_list.on 'click', '.edit_answer_link', (e) ->

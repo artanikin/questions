@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   commentForm = $(".new_comment")
 
   $("body").on "click", ".add_comment_link", (e) ->
@@ -11,7 +11,6 @@ $ ->
     responseData = $.parseJSON(xhr.responseText)
     commentsBlock = $(this).closest(".comments")
 
-    commentsList = commentsBlock.find(".comments-list").append(JST["templates/comment"](comment: responseData.comment))
     $(this).find("textarea").val('')
     $(this).hide()
     $("#flash").html(JST["templates/shared/message"](
@@ -41,5 +40,6 @@ $ ->
     ,
     received: (data) ->
       data = $.parseJSON(data)
-      $(".question .comments .comments-list").append(JST["templates/comment"](comment: data.comment))
+      commentsList = $("#" + data.commentable_type + "_" + data.commentable_id + " .comments .comments-list")
+      commentsList.append(JST["templates/comment"](comment: data.comment))
   })

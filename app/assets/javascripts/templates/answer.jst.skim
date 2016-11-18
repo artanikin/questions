@@ -16,4 +16,6 @@ div.answer.clearfix id = "answer_#{@answer.id}"
     == JST["templates/answers/form"]({ answer: @answer, attachments: @attachments })
 
   p= @answer.body
-  == JST["templates/shared/attachments"](@attachments)
+  == JST["templates/shared/attachments"](attachments: @attachments, attachable: @answer)
+
+  == JST["templates/comments"](comments: [], author_id: @answer.author_id, commentable_id: @answer.id)

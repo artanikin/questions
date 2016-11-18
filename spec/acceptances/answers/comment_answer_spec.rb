@@ -58,4 +58,39 @@ feature "Add comments for answer", %(
       end
     end
   end
+
+  feature "multiple session" do
+    scenario "comment appears on another user's page", :js do
+      Capybara.using_session("user") do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session("guest") do
+        visit question_path(question)
+      end
+
+      Capybara.using_session("user") do
+        within "#answer_#{answer.id} .comments" do
+          click_on "add comment"
+
+          expect(page).to_not have_link 'add comment'
+
+          fill_in "Your Comment", with: "Comment placeholder"
+          click_on 'Save'
+
+          expect(page).to have_link "add comment"
+          expect(page).to_not have_selector "textarea"
+          expect(page).to have_content "Comment placeholder"
+        end
+        expect(page).to have_content "Your comment successfully added"
+      end
+
+      Capybara.using_session("guest") do
+        within "#answer_#{answer.id} .comments" do
+          expect(page).to have_content "Comment placeholder"
+        end
+      end
+    end
+  end
 end

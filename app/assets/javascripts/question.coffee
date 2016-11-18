@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   questions_list = $('.questions-list tbody')
 
   $('.edit-question-link').click (e) ->

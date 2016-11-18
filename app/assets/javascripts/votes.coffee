@@ -1,4 +1,4 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   $('.vote_up, .vote_down').on 'ajax:success', (e, data, status, xhr) ->
     response_data = $.parseJSON(xhr.responseText)
     rating_block = $(this).closest('.rating_block')

@@ -1,0 +1,17 @@
+.comments
+  .comments-list
+    - for comment in @comments
+      .comment= comment.body
+
+  .comment-new
+    - if gon.user_id
+      a.add_comment_link href="" add comment
+
+      form.new_comment action="/answers/#{@commentable_id}/comments" id="new_comment" accept-charset="UTF-8" data-remote="true" method="post"
+        input name="utf8" type="hidden" value="✓"
+
+        .form-group
+          label for="comment-body" Your Comment
+          textarea.form-control name="comment[body]" id="comment_body"
+
+        input type="submit" name="commit" value="Save" class="btn btn-primary" data-disable-with="Save"
