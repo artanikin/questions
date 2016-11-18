@@ -32,7 +32,7 @@ feature 'Edit Question', %(
       end
 
       scenario 'with valid data', js: true do
-        within '.question' do
+        within '.question-show' do
           click_on 'Edit'
 
           fill_in 'Title', with: 'Changed title'

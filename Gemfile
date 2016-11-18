@@ -17,6 +17,8 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'skim'
+gem 'gon'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -26,6 +28,7 @@ group :development, :test do
   gem 'poltergeist'
   gem 'database_cleaner'
   gem 'spring-commands-rspec'
+  gem 'timecop'
 end
 
 group :test do
@@ -35,6 +38,7 @@ group :test do
   gem 'launchy'
   gem 'fuubar'
   gem 'rack_session_access'
+  gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
 end
 
 group :development do

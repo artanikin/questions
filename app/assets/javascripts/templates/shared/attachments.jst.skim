@@ -1,0 +1,8 @@
+ul.attachments.list-inline
+  - for attachment in @attachments
+    li class="attachment_#{attachment.id}"
+      a href="#{attachment.file.url}" = attachment.file.url.substring(attachment.file.url.lastIndexOf('/')+1)
+      | &nbsp;
+      - if @attachable.author_id == gon.user_id
+        span class="remove_attachment_btn"
+          a href="/attachments/#{attachment.id}" data-remote="true" data-method="delete" data-confirm="Are you sure?" rel="nofollow" x

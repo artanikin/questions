@@ -9,6 +9,36 @@ feature 'User create answer', %(
   given(:user) { create(:user) }
   given(:question) { create(:question_with_answers) }
 
+  feature "Multiple sessions", :js do
+    scenario "answer appears on another user's page" do
+      Capybara.using_session("user") do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session("guest") do
+        visit question_path(question)
+      end
+
+      Capybara.using_session("user") do
+        fill_in 'Body', with: 'Placeholder for answer'
+        click_on 'Create Answer'
+
+        expect(current_path).to eq question_path(question)
+        expect(page).to have_content 'Your answer successfully created.'
+        within '#answers' do
+          expect(page).to have_content 'Placeholder for answer'
+        end
+      end
+
+      Capybara.using_session("guest") do
+        within '#answers' do
+          expect(page).to have_content 'Placeholder for answer'
+        end
+      end
+    end
+  end
+
   feature 'Authenticate user' do
     before do
       sign_in(user)

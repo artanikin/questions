@@ -1,11 +1,15 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+
   before_action :set_question, only: [:show, :update, :destroy]
+
+  after_action :publish_question, only: [:create]
 
   include Voted
 
   def index
     @questions = Question.with_rating
+    gon.question = Question.last
   end
 
   def show
@@ -52,6 +56,14 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(json: { question: @question })
+    )
+  end
 
   def set_question
     @question = Question.find(params[:id])

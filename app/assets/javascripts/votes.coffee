@@ -1,4 +1,4 @@
-vote = ->
+$(document).on 'turbolinks:load', ->
   $('.vote_up, .vote_down').on 'ajax:success', (e, data, status, xhr) ->
     response_data = $.parseJSON(xhr.responseText)
     rating_block = $(this).closest('.rating_block')
@@ -13,8 +13,3 @@ vote = ->
       message += '<p>' + value + '</p>'
 
     $('#flash').html('<div class="alert alert-danger">' + message + '</div>')
-
-$(document).ready(vote)
-$(document).on('page:load', vote)
-$(document).on('page:update', vote)
-$(document).on('turbolinks:load', vote)

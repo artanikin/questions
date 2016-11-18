@@ -23,3 +23,5 @@
 
     p= answer.body
     = render partial: 'shared/nested_form/attachments', locals: { obj: answer }
+
+    = render 'comments/comments', commentable: answer

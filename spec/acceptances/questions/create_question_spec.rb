@@ -8,6 +8,35 @@ feature 'Create question', %(
 
   given(:user) { create(:user) }
 
+  feature "multiple sessions", :js do
+    scenario "question appears on another user's page" do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+
+        fill_in 'Title', with: 'Title placeholder'
+        fill_in 'Body', with: 'Placeholder for body'
+        click_on 'Create'
+
+        expect(page).to have_content 'Title placeholder'
+        expect(page).to have_content 'Placeholder for body'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'Title placeholder'
+      end
+    end
+  end
+
+
   feature 'Authenticated user' do
     before do
       sign_in(user)
@@ -27,7 +56,7 @@ feature 'Create question', %(
       expect(current_path).to eq question_path(Question.last)
     end
 
-    scenario 'can not create question with valid attributes' do
+    scenario 'can not create question with invalid attributes' do
       fill_in 'Title', with: ''
       fill_in 'Body', with: ''
       click_on 'Create'

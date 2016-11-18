@@ -1,0 +1,20 @@
+div.answer.clearfix id = "answer_#{@answer.id}"
+  == JST["templates/shared/votes"](votable: @answer, path: "answers/#{@answer.id}")
+
+  ul.list-inline
+    - if @answer.best
+      li
+        strong Best answer
+    - if gon.user_id == @answer.author_id
+      li
+        a.edit_answer_link.btn.btn-primary.btn-sm data-answer-id="#{@answer.id}" href="/answers/#{@answer.id}/edit" Edit
+      li
+        a.btn.btn-danger.btn-sm data-method="delete" data-remote="true" data-confirm="Are you sure?" href="/answer/#{@answer.id}" Remove answer
+
+  - if gon.user_id == @answer.author_id
+    == JST["templates/answers/form"]({ answer: @answer, attachments: @attachments })
+
+  p= @answer.body
+  == JST["templates/shared/attachments"](attachments: @attachments, attachable: @answer)
+
+  == JST["templates/comments"](comments: [], author_id: @answer.author_id, commentable_id: @answer.id)

@@ -1,0 +1,7 @@
+tr
+  td.clearfix
+    == JST['templates/shared/votes'](votable: @, path: "questions/#{@id}")
+    a href="questions/#{@id}" #{@title}
+  td
+    - if @author_id == gon.user_id
+      a.btn.btn-danger.btn-sm data-remote='true' data-method='delete' data-confirm='Are you sure?' rel='nofollow' href="/questions/#{@id}" Remove question
