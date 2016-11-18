@@ -1,4 +1,3 @@
-/ - if answer.persisted?
 div.answer.clearfix id = "answer_#{@answer.id}"
   == JST["templates/shared/votes"](votable: @answer, path: "answers/#{@answer.id}")
 
