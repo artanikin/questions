@@ -10,3 +10,6 @@ en:
       destroy:
         notice: '%{resource_name} was successfully destroyed.'
         alert: '%{resource_name} could not be destroyed.'
+    answers:
+      best:
+        notice: '%{resource_name} mark as Best'
