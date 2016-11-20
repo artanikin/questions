@@ -26,7 +26,7 @@ feature 'Delete answer attachment', %(
       end
 
       expect(page).to_not have_link('x', href: '/uploads/attachment/file/1/spec_helper.rb')
-      expect(page).to have_content 'File was deleted'
+      expect(page).to have_content 'Attachment was successfully destroyed'
     end
 
     scenario 'not see remove link', :js do
