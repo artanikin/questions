@@ -6,6 +6,6 @@
     = f.label :body
     = f.text_area :body, class: 'form-control'
   .form-group
-    = render 'shared/nested_form/attachments_form', f: f
+    = render 'shared/nested_form/attachments_form', f: f, attachable: question
   .form-group
     = f.submit class: 'btn btn-primary'
