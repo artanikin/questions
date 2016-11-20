@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
 
   after_action :publish_question, only: [:create]
 
-  respond_to :js
+  respond_to :js, only: [:update]
 
   include Voted
 
