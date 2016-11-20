@@ -8,7 +8,7 @@
     - if user_signed_in?
       = link_to 'add comment', '', class: 'add_comment_link'
 
-      = form_for [commentable, commentable.comments.build], remote: true do |f|
+      = form_for [commentable, commentable.comments.build], remote: true, data: { type: :json } do |f|
         .form-group
           = f.label :body, 'Your Comment'
           = f.text_area :body, class: 'form-control'
