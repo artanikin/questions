@@ -25,7 +25,7 @@ feature 'User create answer', %(
         click_on 'Create Answer'
 
         expect(current_path).to eq question_path(question)
-        expect(page).to have_content 'Your answer successfully created.'
+        expect(page).to have_content 'Answer was successfully created.'
         within '#answers' do
           expect(page).to have_content 'Placeholder for answer'
         end
@@ -50,7 +50,7 @@ feature 'User create answer', %(
       click_on 'Create Answer'
 
       expect(current_path).to eq question_path(question)
-      expect(page).to have_content 'Your answer successfully created.'
+      expect(page).to have_content 'Answer was successfully created.'
       within '#answers' do
         expect(page).to have_content 'Placeholder for answer'
       end
@@ -62,7 +62,7 @@ feature 'User create answer', %(
 
       expect(current_path).to eq question_path(question)
       expect(page)
-        .to have_content('Your answer not created. Check the correctness of filling the fields.')
+        .to have_content('Answer could not be created')
 
       within '#errors_block' do
         expect(page).to have_content('Body can\'t be blank')

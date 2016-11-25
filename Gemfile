@@ -19,6 +19,7 @@ gem 'cocoon'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'skim'
 gem 'gon'
+gem 'responder'
 
 group :development, :test do
   gem 'rspec-rails'

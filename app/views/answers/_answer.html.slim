@@ -17,7 +17,7 @@
             .form-group
               = f.label :body, 'Answer'
               = f.text_area :body, class: 'form-control'
-            = render 'shared/nested_form/attachments_form', f: f
+            = render 'shared/nested_form/attachments_form', f: f, attachable: answer
             .form-group
               = f.submit 'Save', class: 'btn btn-primary'
 

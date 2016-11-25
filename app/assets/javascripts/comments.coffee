@@ -15,7 +15,7 @@ $(document).on 'turbolinks:load', ->
     $(this).hide()
     $("#flash").html(JST["templates/shared/message"](
       message_type: "success",
-      message: responseData.message
+      message: 'Your comment successfully added'
     ))
     commentsBlock.find(".errors_block").remove()
     commentsBlock.find(".add_comment_link").show()
@@ -27,7 +27,7 @@ $(document).on 'turbolinks:load', ->
 
     $('#flash').html(JST["templates/shared/message"](
       message_type: "danger",
-      message: responseData.message
+      message: 'Your comment not added'
     ))
 
   App.cable.subscriptions.create("CommentsChannel", {
@@ -40,6 +40,6 @@ $(document).on 'turbolinks:load', ->
     ,
     received: (data) ->
       data = $.parseJSON(data)
-      commentsList = $("#" + data.commentable_type + "_" + data.commentable_id + " .comments .comments-list")
+      commentsList = $("#" + data.commentable_type.toLowerCase() + "_" + data.commentable_id + " .comments .comments-list")
       commentsList.append(JST["templates/comment"](comment: data.comment))
   })

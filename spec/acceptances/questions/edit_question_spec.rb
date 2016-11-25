@@ -56,7 +56,7 @@ feature 'Edit Question', %(
           click_on 'Update Question'
         end
 
-        expect(page).to have_content 'Your question not update'
+        expect(page).to have_content 'Question could not be updated'
         expect(page).to have_content 'Title can\'t be blank'
         expect(page).to have_content 'Title is too short (minimum is 10 characters)'
         expect(page).to have_content question.title

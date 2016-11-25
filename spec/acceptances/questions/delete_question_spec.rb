@@ -22,7 +22,7 @@ feature 'Delete question', %(
     expect(current_path).to eq questions_path
     expect(page).to_not have_content 'Simple title'
     expect(page).to_not have_content 'Placeholder for body'
-    expect(page).to have_content 'Your question successfully removed'
+    expect(page).to have_content 'Question was successfully destroyed'
   end
 
   scenario 'Not-author can not remove not his question' do

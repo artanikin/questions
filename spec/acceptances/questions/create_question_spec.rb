@@ -50,7 +50,7 @@ feature 'Create question', %(
       fill_in 'Body', with: 'Placeholder for body'
       click_on 'Create'
 
-      expect(page).to have_content 'Your question successfully created'
+      expect(page).to have_content 'Question was successfully created'
       expect(page).to have_content 'Title placeholder'
       expect(page).to have_content 'Placeholder for body'
       expect(current_path).to eq question_path(Question.last)
@@ -61,8 +61,7 @@ feature 'Create question', %(
       fill_in 'Body', with: ''
       click_on 'Create'
 
-      expect(page).to have_content(
-        'Your question not created. Check the correctness of filling the fields.')
+      expect(page).to have_content('Question could not be created')
     end
   end
 

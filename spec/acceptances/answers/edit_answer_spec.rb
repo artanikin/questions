@@ -37,7 +37,7 @@ feature 'Edit Answer', %(
           expect(page).to have_content 'Edited answer'
           expect(page).to_not have_selector 'textarea'
         end
-        expect(page).to have_content 'Your answer successfully updated'
+        expect(page).to have_content 'Answer was successfully updated'
       end
 
       scenario 'with invalid data', js: true do
@@ -52,7 +52,7 @@ feature 'Edit Answer', %(
           expect(page).to have_content answer.body
           expect(page).to have_selector 'textarea'
         end
-        expect(page).to have_content 'Your answer not updated'
+        expect(page).to have_content 'Answer could not be updated'
       end
     end
 

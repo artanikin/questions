@@ -1,58 +1,38 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-
   before_action :set_question, only: [:show, :update, :destroy]
+  before_action :build_answer, only: [:show]
 
   after_action :publish_question, only: [:create]
+
+  respond_to :js, only: [:update]
+  respond_to :json
 
   include Voted
 
   def index
-    @questions = Question.with_rating
-    gon.question = Question.last
+    respond_with(@questions = Question.with_rating)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
+    respond_with @question
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def create
-    @question = current_user.questions.build(question_params)
-    if @question.save
-      flash[:success] = 'Your question successfully created'
-      redirect_to @question
-    else
-      flash[:danger] = 'Your question not created. Check the correctness of filling the fields.'
-      render :new
-    end
+    respond_with(@question = Question.create(question_params.merge(author: current_user)))
   end
 
   def update
-    if current_user.author?(@question)
-      if @question.update(question_params)
-        flash.now[:success] = 'Your question successfully updated'
-      else
-        flash.now[:danger] = 'Your question not updated'
-      end
-    else
-      flash.now[:danger] = 'Question does not updated. You are not the author of this question'
-    end
+    @question.update(question_params) if current_user.author?(@question)
+    respond_with(@question)
   end
 
   def destroy
-    if current_user.author?(@question)
-      @question.destroy
-      flash[:success] = 'Your question successfully removed'
-    else
-      flash[:alert] = 'Question does not removed. You are not the author of this question'
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy) if current_user.author?(@question)
   end
 
   private
@@ -67,6 +47,10 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  def build_answer
+    @answer = @question.answers.build
   end
 
   def question_params

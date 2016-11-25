@@ -14,7 +14,7 @@ RSpec.describe AttachmentsController, type: :controller do
           .to change(question.attachments, :count).by(-1)
       end
 
-      it 'can not delete his attachment' do
+      it 'can not delete attachment for not his question' do
         expect { delete :destroy, format: :js, params: { id: attachment } }
           .to_not change(question.attachments, :count)
       end

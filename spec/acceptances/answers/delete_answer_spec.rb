@@ -25,7 +25,7 @@ feature 'Delete answer', %(
 
     expect(page).to_not have_content answer.body
     expect(current_path).to eq question_path(question)
-    expect(page).to have_content 'Your answer successfully removed'
+    expect(page).to have_content 'Answer was successfully destroyed'
   end
 
   scenario 'Not-author can not remove not his answer' do
