@@ -18,14 +18,37 @@ class User < ApplicationRecord
     return authorization.user if authorization
 
     email = auth.info[:email]
-    user = User.where(email: email).first
-    if user
-      user.authorizations.create(provider: auth.provider, uid: auth.uid)
+    if email
+      user = User.where(email: email).first
+      if user
+        user.authorizations.create(provider: auth.provider, uid: auth.uid)
+      else
+        password = Devise.friendly_token[0, 20]
+        user = User.create!(email: email, password: password, password_confirmation: password)
+        user.authorizations.create(provider: auth.provider, uid: auth.uid)
+      end
     else
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      user.authorizations.create(provider: auth.provider, uid: auth.uid)
+      user = User.new
+      user.authorizations.build(provider: auth.provider, uid: auth.uid)
     end
     user
   end
+
+  def self.new_with_session(params, session)
+    if session['devise.user_attributes']
+      # new(session['devise.user_attributes'], without_protection: true) do |user|
+      new(session['devise.user_attributes']) do |user|
+        user.attributes = params
+        user.authorizations.build(session['authorization'])
+        user.valid?
+      end
+    else
+      super
+      user.authorizations.create(session['authorization'])
+    end
+  end
+
+#   def password_required?
+#     super
+#   end
 end
