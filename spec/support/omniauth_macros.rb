@@ -7,9 +7,9 @@ module OmniauthMacros
     })
   end
 
-  def mock_auth_twitter
+  def mock_auth_without_email(provider)
     OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
-      provider: 'twitter',
+      provider: provider,
       uid: '123456',
       info: {}
     })

@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:facebook, :twitter]
+         :omniauthable, omniauth_providers: [:facebook, :twitter, :vkontakte]
 
   has_many :questions, foreign_key: :author_id, dependent: :destroy
   has_many :answers, foreign_key: :author_id, dependent: :destroy
