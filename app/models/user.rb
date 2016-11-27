@@ -14,6 +14,8 @@ class User < ApplicationRecord
   end
 
   def self.find_for_oauth(auth)
+    return nil if (auth.blank? || auth.provider.blank? || auth.uid.blank?)
+
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 

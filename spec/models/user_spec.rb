@@ -102,6 +102,23 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    context 'not provide auth' do
+      it 'return nil if not set auth' do
+        auth_params = {}
+        expect(User.find_for_oauth(auth_params)).to be_nil
+      end
+
+      it 'return nil if not set auth.provider' do
+        auth = OmniAuth::AuthHash.new(uid: '123456')
+        expect(User.find_for_oauth(auth)).to be_nil
+      end
+
+      it 'return nil if not set auth.uid' do
+        auth = OmniAuth::AuthHash.new(provider: 'twitter')
+        expect(User.find_for_oauth(auth)).to be_nil
+      end
+    end
   end
 
   describe '.new_with_session' do
