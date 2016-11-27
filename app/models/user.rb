@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:facebook, :twitter]
 
@@ -17,38 +17,45 @@ class User < ApplicationRecord
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    email = auth.info[:email]
-    if email
-      user = User.where(email: email).first
-      if user
-        user.authorizations.create(provider: auth.provider, uid: auth.uid)
-      else
-        password = Devise.friendly_token[0, 20]
-        user = User.create!(email: email, password: password, password_confirmation: password)
-        user.authorizations.create(provider: auth.provider, uid: auth.uid)
-      end
+    user = User.find_or_initialize_by(email: auth.info[:email])
+    authorization = user.authorizations.build(provider: auth.provider, uid: auth.uid)
+
+    if user.persisted?
+      authorization.save
     else
-      user = User.new
-      user.authorizations.build(provider: auth.provider, uid: auth.uid)
+      user.skip_confirmation!
+      user.save! if user.email
     end
+
     user
   end
 
   def self.new_with_session(params, session)
-    if session['devise.user_attributes']
-      # new(session['devise.user_attributes'], without_protection: true) do |user|
-      new(session['devise.user_attributes']) do |user|
+    if session['authorization']
+      user = find_or_initialize_by(email: params[:email])
+      user.authorizations.build(session['authorization'])
+
+      if user.persisted?
+        user.update(confirmed_at: nil) && user.send_reconfirmation_instructions
+      else
         user.attributes = params
-        user.authorizations.build(session['authorization'])
         user.valid?
       end
+      user
     else
       super
-      user.authorizations.create(session['authorization'])
     end
   end
 
-#   def password_required?
-#     super
-#   end
+  def password_required?
+    super && authorizations.blank?
+  end
+
+  def update_with_password(params, *options)
+    if encrypted_password.blank?
+      update_attributes(params, *options)
+    else
+      super
+    end
+  end
 end

@@ -103,4 +103,80 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.new_with_session' do
+    subject { User.new_with_session(params, session) }
+    let!(:session) { { 'authorization' => { provider: 'Twitter', uid: '123456' } } }
+
+    context 'user exist' do
+      let!(:user) { create(:user) }
+      let!(:params) { { email: user.email } }
+
+      it "reset confirmed_at" do
+        subject
+        expect(user.reload.confirmed_at).to be_nil
+      end
+
+      it "return user" do
+        expect(subject).to eq user
+      end
+    end
+
+    context 'user not exist' do
+      context 'provide email param' do
+        let(:params) { { email: 'example@mail.com' } }
+
+        it 'return new user' do
+          expect(subject).to be_new_record
+          expect(subject).to be_a(User)
+        end
+
+        it 'return valid user' do
+          expect(subject).to be_valid
+        end
+      end
+
+      context 'not provide email param' do
+        let(:params) { {} }
+
+        it 'return new user' do
+          expect(subject).to be_new_record
+          expect(subject).to be_a(User)
+        end
+
+        it 'return not valid user' do
+          expect(subject).to_not be_valid
+        end
+      end
+    end
+  end
+
+  describe '#password_required?' do
+    let!(:user) { create(:user) }
+
+    context 'without authorizations' do
+      it 'return true' do
+        expect(user.password_required?).to be_truthy
+      end
+    end
+
+    context 'with authorization' do
+      it 'return false' do
+        create(:authorization, user: user)
+        expect(user.reload.password_required?).to be_falsey
+      end
+    end
+  end
+
+  describe '#update_with_password' do
+    let!(:params) { { email: 'example@mail.com' } }
+
+    it 'update user without password' do
+      user = User.new
+      user.authorizations.build
+      user.save
+      user.update_with_password(params)
+      expect(user.reload.email).to eq params[:email]
+    end
+  end
 end

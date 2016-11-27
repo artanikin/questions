@@ -33,6 +33,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'spring-commands-rspec'
   gem 'timecop'
+  gem 'letter_opener'
 end
 
 group :test do
