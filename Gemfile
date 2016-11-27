@@ -44,6 +44,7 @@ group :test do
   gem 'fuubar'
   gem 'rack_session_access'
   gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
+  gem 'capybara-email'
 end
 
 group :development do

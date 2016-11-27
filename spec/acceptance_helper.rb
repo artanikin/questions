@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'rspec/page-regression'
 require 'capybara/poltergeist'
 require 'rack_session_access/capybara'
+require 'capybara/email/rspec'
 require 'puma'
 
 RSpec.configure do |config|
