@@ -14,7 +14,7 @@ class User < ApplicationRecord
   end
 
   def self.find_for_oauth(auth)
-    return nil if (auth.blank? || auth.provider.blank? || auth.uid.blank?)
+    return if (auth.blank? || auth.provider.blank? || auth.uid.blank?)
 
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
@@ -33,9 +33,9 @@ class User < ApplicationRecord
   end
 
   def self.new_with_session(params, session)
-    if session['authorization']
+    if session['devise.authorization']
       user = find_or_initialize_by(email: params[:email])
-      user.authorizations.build(session['authorization'])
+      user.authorizations.build(session['devise.authorization'])
 
       if user.persisted?
         user.update(confirmed_at: nil) && user.send_reconfirmation_instructions

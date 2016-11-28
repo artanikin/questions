@@ -123,7 +123,7 @@ RSpec.describe User, type: :model do
 
   describe '.new_with_session' do
     subject { User.new_with_session(params, session) }
-    let!(:session) { { 'authorization' => { provider: 'Twitter', uid: '123456' } } }
+    let!(:session) { { 'devise.authorization' => { provider: 'Twitter', uid: '123456' } } }
 
     context 'user exist' do
       let!(:user) { create(:user) }
