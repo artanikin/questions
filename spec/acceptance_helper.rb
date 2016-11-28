@@ -2,11 +2,13 @@ require 'rails_helper'
 require 'rspec/page-regression'
 require 'capybara/poltergeist'
 require 'rack_session_access/capybara'
+require 'capybara/email/rspec'
 require 'puma'
 
 RSpec.configure do |config|
   include ActionView::RecordIdentifier
   config.include AcceptenceHelper, type: :feature
+  config.include OmniauthMacros, type: :feature
 
   Capybara.server_host = '0.0.0.0'
   Capybara.server_port = 3001
@@ -27,6 +29,8 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   Capybara.server = :puma
+
+  OmniAuth.config.test_mode = true
 
   RSpec::PageRegression.configure do |c|
     c.threshold = 0.01

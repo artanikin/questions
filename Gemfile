@@ -13,6 +13,10 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-vkontakte'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
@@ -30,6 +34,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'spring-commands-rspec'
   gem 'timecop'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -40,6 +45,7 @@ group :test do
   gem 'fuubar'
   gem 'rack_session_access'
   gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
+  gem 'capybara-email'
 end
 
 group :development do

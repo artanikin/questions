@@ -7,6 +7,7 @@ FactoryGirl.define do
     email
     password 'pass123'
     password_confirmation 'pass123'
+    confirmed_at Time.now
 
     factory :user_with_questions do
       transient do
