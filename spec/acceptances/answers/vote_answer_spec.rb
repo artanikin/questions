@@ -24,21 +24,21 @@ feature 'Vote for answer', %(
   describe 'Authorized user' do
     before { sign_in(user) }
 
-    describe 'as author this question' do
-      scenario 'can not vote', :js do
-        answer.update(author_id: user.id)
-        visit question_path(question)
+    # describe 'as author this answer' do
+    #   scenario 'can not vote', :js do
+    #     answer.update(author_id: user.id)
+    #     visit question_path(question)
 
-        within '#answers .rating_block' do
-          find(:css, '.glyphicon-chevron-up').click
+    #     within '#answers .rating_block' do
+    #       find(:css, '.glyphicon-chevron-up').click
 
-          expect(page).to have_content '0'
-        end
-        expect(page).to have_content 'You can not vote for your answer'
-      end
-    end
+    #       expect(page).to have_content '0'
+    #     end
+    #     expect(page).to have_content 'You can not vote for your answer'
+    #   end
+    # end
 
-    describe 'as not author this question' do
+    describe 'as not author this answer' do
       scenario 'can vote up', :js do
         visit question_path(question)
 

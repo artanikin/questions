@@ -29,12 +29,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params) if current_user.author?(@question)
+    @question.update(question_params)
     respond_with(@question)
   end
 
   def destroy
-    respond_with(@question.destroy) if current_user.author?(@question)
+    respond_with(@question.destroy)
   end
 
   private

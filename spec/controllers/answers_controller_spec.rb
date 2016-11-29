@@ -148,8 +148,8 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.reload.body).to_not eq 'Change answer'
         end
 
-        it 'render update template' do
-          expect(response).to render_template :update
+        it 'get 302 status' do
+          expect(response.status).to eq 302
         end
       end
     end

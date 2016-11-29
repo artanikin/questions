@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   respond_to :js
 
+  authorize_resource
+
   include Voted
 
   def create
@@ -14,11 +16,11 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    respond_with(@answer.destroy) if current_user.author?(@answer)
+    respond_with(@answer.destroy)
   end
 
   def update
-    @answer.update(answer_params) if current_user.author?(@answer)
+    @answer.update(answer_params)
     respond_with(@answer)
   end
 

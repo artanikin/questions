@@ -5,12 +5,13 @@ class ApplicationController < ActionController::Base
   respond_to :html
 
   protect_from_forgery with: :exception
-  add_flash_types :success, :danger
 
   before_action :gon_user, unless: :devise_controller?
 
+  check_authorization unless: :devise_controller?
+
   rescue_from CanCan::AccessDenied do |exсeption|
-    redirect_to root_url, alert: exception.message
+    redirect_to root_url, alert: exсeption.message
   end
 
   private

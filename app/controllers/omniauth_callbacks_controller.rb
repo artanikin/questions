@@ -1,5 +1,5 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_filter :authorize
+  before_action :authorize
 
   def facebook
   end
