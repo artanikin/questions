@@ -4,12 +4,18 @@ $(document).on 'turbolinks:load', ->
     rating_block = $(this).closest('.rating_block')
     rating_block.find('.rating').html(response_data.rating)
 
-    $('#flash').html('<div class="alert alert-success">' + response_data.message + '</div>')
+    $('#flash').html(JST["templates/shared/message"](
+      message_type: "success",
+      message: response_data.message
+    ))
 
   .on 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     message = ''
     $.each errors, (index, value) ->
-      message += '<p>' + value + '</p>'
+      message += value
 
-    $('#flash').html('<div class="alert alert-danger">' + message + '</div>')
+    $('#flash').html(JST["templates/shared/message"](
+      message_type: "danger",
+      message: message
+    ))

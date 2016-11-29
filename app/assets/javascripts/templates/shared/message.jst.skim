@@ -1,1 +1,3 @@
-div class="alert alert-#{@message_type}" = @message
+div class="alert alert-#{@message_type}"
+  = @message
+  button.close type="button" data-dismiss="alert" &times;

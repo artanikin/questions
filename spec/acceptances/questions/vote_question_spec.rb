@@ -12,11 +12,8 @@ feature 'Vote for question', %(
   scenario 'Unauthorized user can not vote for question', :js do
     visit questions_path
     within '.rating_block' do
-      find(:css, '.glyphicon-chevron-up').click
-
-      expect(page).to have_content '0'
+      expect(page).to_not have_css '.glyphicon-chevron-up'
     end
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 
   describe 'Authorized user' do
@@ -28,11 +25,8 @@ feature 'Vote for question', %(
         visit questions_path
 
         within '.rating_block' do
-          find(:css, '.glyphicon-chevron-up').click
-
-          expect(page).to have_content '0'
+          expect(page).to_not have_css '.glyphicon-chevron-up'
         end
-        expect(page).to have_content 'You can not vote for your question'
       end
     end
 
