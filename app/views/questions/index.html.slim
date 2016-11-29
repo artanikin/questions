@@ -13,6 +13,6 @@ table.table.questions-list
           = render 'shared/votes_panel', obj: question
           = link_to question.title, question
         td
-          - if user_signed_in? && current_user.author?(question)
+          - if can?(:destroy, question)
             = link_to 'Remove question', question,
               method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm'

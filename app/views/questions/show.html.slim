@@ -3,7 +3,7 @@
 - unless @question.answers.empty?
   #answers= render @question.answers.with_rating
 
-- if user_signed_in?
+- if can?(:create, Answer)
   = form_for [@question, @answer], remote: true do |f|
     fieldset
       .form-group
