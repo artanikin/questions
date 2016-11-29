@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   before_action :gon_user, unless: :devise_controller?
 
+  rescue_from CanCan::AccessDenied do |exсeption|
+    redirect_to root_url, alert: exception.message
+  end
+
   private
 
   def gon_user

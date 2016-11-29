@@ -8,6 +8,8 @@ class QuestionsController < ApplicationController
   respond_to :js, only: [:update]
   respond_to :json
 
+  authorize_resource
+
   include Voted
 
   def index

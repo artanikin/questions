@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include BootstrapFlashHelper
+
   def vote_link(obj, vote_type)
     options = {
       remote: true,
