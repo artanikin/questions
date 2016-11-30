@@ -23,12 +23,18 @@ $(document).on 'turbolinks:load', ->
   .on "ajax:error", (e, xhr, status, error) ->
     responseData = $.parseJSON(xhr.responseText)
 
-    $(this).before(JST["templates/shared/errors_block"](errors: responseData.errors.body))
+    if xhr.status == 401
+      $('#flash').html(JST["templates/shared/message"](
+        message_type: "danger",
+        message: responseData.error
+      ))
+    else
+      $(this).before(JST["templates/shared/errors_block"](errors: responseData.errors.body))
 
-    $('#flash').html(JST["templates/shared/message"](
-      message_type: "danger",
-      message: 'Your comment not added'
-    ))
+      $('#flash').html(JST["templates/shared/message"](
+        message_type: "danger",
+        message: 'Your comment not added'
+      ))
 
   App.cable.subscriptions.create("CommentsChannel", {
     connected: ->

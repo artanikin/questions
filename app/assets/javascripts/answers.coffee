@@ -7,6 +7,13 @@ $(document).on 'turbolinks:load', ->
     answer_id = $(this).data('answerId')
     $('#edit_answer_' + answer_id).show()
 
+  $('#new_answer').on 'ajax:error', (e, xhr, status, error) ->
+    if xhr.status == 401
+      $('#flash').html(JST["templates/shared/message"](
+        message_type: "danger",
+        message: xhr.responseText
+      ))
+
   App.cable.subscriptions.create("AnswersChannel", {
     connected: ->
       question_id = $('.question').data('questionId')

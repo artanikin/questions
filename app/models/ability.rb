@@ -31,7 +31,7 @@ class Ability
     can :best, Answer, question: { author_id: user.id }
 
     can [:vote_up, :vote_down], [Question, Answer] do |resource|
-      user.present? && resource.author_id != user.id
+      resource.author_id != user.id
     end
   end
 end

@@ -148,8 +148,8 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.reload.body).to_not eq 'Change answer'
         end
 
-        it 'get 302 status' do
-          expect(response.status).to eq 302
+        it 'get 403 status :forbidden' do
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -163,8 +163,8 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'Change answer'
       end
 
-      it 'get 401 status Unauthorized' do
-        expect(response.status).to eq 401
+      it 'get 401 status :unauthorized' do
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
