@@ -25,6 +25,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'skim'
 gem 'gon'
 gem 'responder'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'rspec-rails'
