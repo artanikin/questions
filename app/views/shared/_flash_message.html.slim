@@ -1,3 +1,5 @@
 #flash
   - flash.each do |name, message|
-    div class = "alert alert-#{name}" = message
+    div class = "alert alert-#{name_flash_method(name)}"
+      = message
+      = content_tag(:button, raw('&times;'),  type: "button", class: "close", "data-dismiss" => "alert")

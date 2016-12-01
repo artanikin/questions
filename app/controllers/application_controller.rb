@@ -5,9 +5,18 @@ class ApplicationController < ActionController::Base
   respond_to :html
 
   protect_from_forgery with: :exception
-  add_flash_types :success, :danger
 
   before_action :gon_user, unless: :devise_controller?
+
+  check_authorization unless: :devise_controller?
+
+  rescue_from CanCan::AccessDenied do |e|
+    respond_to do |format|
+      format.html { redirect_to root_url, alert: e.message }
+      format.json { render json: { errors: e.message.to_s }, status: :forbidden }
+      format.js   { head :forbidden }
+    end
+  end
 
   private
 

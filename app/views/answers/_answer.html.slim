@@ -7,19 +7,19 @@
         li
           strong Best answer
       - if user_signed_in?
-        - if !answer.best? && current_user.author?(answer.question)
+        - if !answer.best? && can?(:best, answer)
           li= link_to 'Best', best_answer_path(answer), method: :patch, remote: true, class: 'btn btn-success btn-sm'
-        - if current_user.author?(answer)
+        - if can?(:update, answer)
           li= link_to 'Edit', '', class: 'edit_answer_link btn btn-primary btn-sm', data: { answer_id: answer.id }
           li= link_to 'Remove answer', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
-        = form_for answer, remote: true do |f|
-          fieldset
-            .form-group
-              = f.label :body, 'Answer'
-              = f.text_area :body, class: 'form-control'
-            = render 'shared/nested_form/attachments_form', f: f, attachable: answer
-            .form-group
-              = f.submit 'Save', class: 'btn btn-primary'
+          = form_for answer, remote: true do |f|
+            fieldset
+              .form-group
+                = f.label :body, 'Answer'
+                = f.text_area :body, class: 'form-control'
+              = render 'shared/nested_form/attachments_form', f: f, attachable: answer
+              .form-group
+                = f.submit 'Save', class: 'btn btn-primary'
 
     p= answer.body
     = render partial: 'shared/nested_form/attachments', locals: { obj: answer }

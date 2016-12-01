@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def name_flash_method(name)
+    case name.to_sym
+    when :alert, :error
+      'danger'
+    else
+      'success'
+    end
+  end
+
   def vote_link(obj, vote_type)
     options = {
       remote: true,

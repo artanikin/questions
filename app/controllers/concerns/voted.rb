@@ -6,11 +6,13 @@ module Voted
   end
 
   def vote_up
+    authorize! :vote_up, @votable
     has_errors, messages = @votable.vote_up(current_user)
     render_vote_json(has_errors, messages)
   end
 
   def vote_down
+    authorize! :vote_down, @votable
     has_errors, messages = @votable.vote_down(current_user)
     render_vote_json(has_errors, messages)
   end

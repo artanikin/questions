@@ -26,8 +26,8 @@ shared_examples 'voted' do
           expect { subject }.to_not change(model.votes, :count)
         end
 
-        it 'get 422 status :unprocessable_entity' do
-          expect(subject).to have_http_status(422)
+        it 'get 403 status :forbidden' do
+          expect(subject).to have_http_status(:forbidden)
         end
       end
     end
@@ -67,8 +67,8 @@ shared_examples 'voted' do
           expect { subject }.to_not change(model.votes, :count)
         end
 
-        it 'get 422 status :unprocessable_entity' do
-          expect(subject).to have_http_status(422)
+        it 'get 403 status :forbidden' do
+          expect(subject).to have_http_status(:forbidden)
         end
       end
     end

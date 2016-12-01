@@ -1,4 +1,6 @@
 ul.list-unstyled.rating_block
-  li = vote_link(obj, 'up')
+  - if can?(:vote_up, obj)
+    li = vote_link(obj, 'up')
   li.rating = obj.try(:rating) ? obj.rating : obj.evaluation
-  li = vote_link(obj, 'down')
+  - if can?(:vote_down, obj)
+    li = vote_link(obj, 'down')
