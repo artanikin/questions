@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :answers, foreign_key: :author_id, dependent: :destroy
   has_many :authorizations, dependent: :destroy
 
+  scope :without, -> (id) { where("id != ?", id) }
+
   def author?(object)
     object.author_id == self.id
   end
