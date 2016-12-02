@@ -51,7 +51,7 @@ describe 'Profiles API' do
       end
     end
 
-    context 'GET /index' do
+    context 'authorized' do
       let(:john) { create(:user) }
       let(:bob) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: john.id) }
