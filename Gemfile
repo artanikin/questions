@@ -25,6 +25,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'skim'
 gem 'gon'
 gem 'responder'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -47,6 +48,7 @@ group :test do
   gem 'rack_session_access'
   gem 'rspec-page-regression', github: 'teachbase/rspec-page-regression', branch: 'use-imatcher'
   gem 'capybara-email'
+  gem 'json_spec'
 end
 
 group :development do
