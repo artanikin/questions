@@ -23,11 +23,9 @@ class CommentsController < ApplicationController
     return if @comment.errors.any?
     ActionCable.server.broadcast(
       "comments_#{channel_id}",
-      ApplicationController.render(json: {
-        comment: @comment,
+      { comment: @comment,
         commentable_type: @commentable.class.name.underscore,
-        commentable_id: @commentable.id
-      })
+        commentable_id: @commentable.id }.to_json
     )
   end
 

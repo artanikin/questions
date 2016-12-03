@@ -15,6 +15,5 @@ $(document).on 'turbolinks:load', ->
         @perform 'unfollow'
     ,
     received: (data) ->
-      data = $.parseJSON(data)
-      questions_list.append(JST['templates/question_list'](data.question))
+      questions_list.append(JST['templates/question_list']($.parseJSON(data)))
   })

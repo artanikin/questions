@@ -43,7 +43,7 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
     ActionCable.server.broadcast(
       'questions',
-      ApplicationController.render(json: { question: @question })
+      @question.to_json
     )
   end
 
