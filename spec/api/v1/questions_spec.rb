@@ -40,7 +40,6 @@ describe 'Questions API' do
 
   describe 'GET /show' do
     let!(:question) { create(:question) }
-    let!(:comment) { create(:comment, commentable: question) }
 
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
@@ -56,6 +55,8 @@ describe 'Questions API' do
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
+      let!(:comment) { create(:comment, commentable: question) }
+      let!(:attachment) { create(:attachment, attachable: question) }
 
       before { get api_v1_question_path(question), params: { format: :json, access_token: access_token.token } }
 
@@ -82,6 +83,16 @@ describe 'Questions API' do
           it "contains #{attr}" do
             expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
           end
+        end
+      end
+
+      context 'attachments' do
+        it 'included in question object' do
+          expect(response.body).to have_json_size(1).at_path('question/attachments')
+        end
+
+        it "contains #{attr}" do
+          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/url")
         end
       end
     end
