@@ -98,4 +98,60 @@ describe 'Answers API' do
       end
     end
   end
+
+  describe 'POST /create' do
+    let!(:question) { create(:question) }
+
+    context 'unauthorized' do
+      it 'returns 401 status if there is no access_token' do
+        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json }
+        expect(response).to have_http_status 401
+      end
+
+      it 'returns 401 status if access_token is invalid' do
+        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: '123456' }
+        expect(response).to have_http_status 401
+      end
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      context 'with valid answer params' do
+        before { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token } }
+
+        it 'returns 201 status code' do
+          expect(response).to have_http_status 201
+        end
+
+        it 'returns created answer' do
+          expect(response.body).to have_json_path('answer')
+        end
+
+        it "answer object contains body" do
+          expect(response.body).to be_json_eql(attributes_for(:answer)[:body].to_json).at_path("answer/body")
+        end
+      end
+
+      context 'with invalid answer params' do
+        before { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token } }
+
+        it "returns 422 status code" do
+          expect(response).to have_http_status 422
+        end
+
+        it 'returns errors list' do
+          expect(response.body).to have_json_size(1).at_path('errors')
+        end
+
+        it 'returns body presence error' do
+          expect(response.body).to be_json_eql("can't be blank".to_json).at_path("errors/body/0")
+        end
+
+        it "returns body length error" do
+          expect(response.body).to be_json_eql("is too short (minimum is 10 characters)".to_json).at_path("errors/body/1")
+        end
+      end
+    end
+  end
 end
