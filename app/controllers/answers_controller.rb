@@ -36,10 +36,7 @@ class AnswersController < ApplicationController
 
     ActionCable.server.broadcast(
       "answers_#{@question.id}",
-      ApplicationController.render(json: {
-        answer: @answer,
-        attachments: @answer.attachments
-      })
+      { answer: @answer, attachments: @answer.attachments }.to_json
     )
   end
 
