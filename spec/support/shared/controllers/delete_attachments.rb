@@ -15,7 +15,7 @@ shared_examples "Delete attachments" do
   end
 
   describe "Unauthorized user" do
-    it 'can not delete attachment' do
+    it "can not delete attachment" do
       expect { subject }.to_not change(object.attachments, :count)
     end
 
