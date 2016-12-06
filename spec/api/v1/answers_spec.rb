@@ -1,27 +1,19 @@
 require 'rails_helper'
 
-describe 'Answers API' do
+describe 'Answers API', type: :request do
   describe 'GET /index' do
     let!(:question) { create(:question) }
+    let(:http_method) { :get }
+    let(:url) { api_v1_question_answers_path(question_id: question.id) }
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get api_v1_question_answers_path(question_id: question.id), params: { format: :json }
-        expect(response).to have_http_status 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get api_v1_question_answers_path(question_id: question.id), params: { format: :json, access_token: '123456' }
-        expect(response).to have_http_status 401
-      end
-    end
+    it_behaves_like "API unauthorized"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
       let!(:answers) { create_list(:answer, 2, question: question) }
       let(:answer) { answers.first }
 
-      before { get api_v1_question_answers_path(question_id: question.id), params: { format: :json, access_token: access_token.token } }
+      before { do_request(http_method, url, { access_token: access_token.token }) }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -41,18 +33,10 @@ describe 'Answers API' do
 
   describe 'GET /show' do
     let!(:answer) { create(:answer) }
+    let(:http_method) { :get }
+    let(:url) { api_v1_answer_path(answer) }
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get api_v1_answer_path(answer), params: { format: :json }
-        expect(response).to have_http_status 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        get api_v1_answer_path(answer), params: { format: :json, access_token: '123456' }
-        expect(response).to have_http_status 401
-      end
-    end
+    it_behaves_like "API unauthorized"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -101,24 +85,16 @@ describe 'Answers API' do
 
   describe 'POST /create' do
     let!(:question) { create(:question) }
+    let(:http_method) { :post }
+    let(:url) {  "/api/v1/questions/#{question.id}/answers" }
 
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json }
-        expect(response).to have_http_status 401
-      end
-
-      it 'returns 401 status if access_token is invalid' do
-        post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: '123456' }
-        expect(response).to have_http_status 401
-      end
-    end
+    it_behaves_like "API unauthorized"
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
 
       context 'with valid answer params' do
-        before { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), format: :json, access_token: access_token.token } }
+        before { do_request(http_method, url, { answer: attributes_for(:answer), access_token: access_token.token }) }
 
         it 'returns 201 status code' do
           expect(response).to have_http_status 201
