@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  it_behaves_like 'voted'
+  it_behaves_like 'Voted'
 
   let(:question) { create(:question) }
 
