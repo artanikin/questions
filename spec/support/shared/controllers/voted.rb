@@ -1,4 +1,4 @@
-shared_examples 'voted' do
+shared_examples 'Voted' do
   let(:model) { create(described_class.controller_name.classify.underscore.to_sym) }
   let(:parameters) { {id: model.id, format: :json} }
 

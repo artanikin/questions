@@ -1,4 +1,4 @@
-shared_examples_for 'votable' do
+shared_examples_for 'Votable' do
   let(:user) { create(:user) }
   let(:john) { create(:user) }
   let(:model) { create(described_class.to_s.underscore.to_sym) }
