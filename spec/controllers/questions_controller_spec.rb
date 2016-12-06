@@ -55,35 +55,33 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:parameters) do
-      { question: attributes_for(:question) }
-    end
+    let(:parameters) { { question: attributes_for(:question) } }
+
+    subject { post :create, params: parameters }
 
     describe 'Authorized user' do
       sign_in_user
 
       context 'with valid attributes' do
         it 'saves the new question in database' do
-          expect { post :create, params: parameters }.to change(@user.questions, :count).by(1)
+          expect { subject }.to change(@user.questions, :count).by(1)
         end
 
         it 'redirect to show view' do
-          post :create, params: parameters
+          subject
           expect(response).to redirect_to question_path(assigns(:question))
         end
       end
 
       context 'with invalid attributes' do
-        let(:parameters) do
-          { question: attributes_for(:invalid_question) }
-        end
+        let(:parameters) { { question: attributes_for(:invalid_question) } }
 
         it 'does not save the question' do
-          expect { post :create, params: parameters }.to_not change(Question, :count)
+          expect { subject }.to_not change(Question, :count)
         end
 
         it 're-render view new' do
-          post :create, params: parameters
+          subject
           expect(response).to render_template :new
         end
       end
@@ -91,71 +89,72 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'Non-authorized user' do
       it 'can not create question' do
-        expect { post :create, params: parameters }.to_not change(Question, :count)
+        expect { subject }.to_not change(Question, :count)
       end
 
       it 'redirect_to log in' do
-        post :create, params: parameters
+        subject
         expect(response).to redirect_to new_user_session_path
       end
     end
   end
 
   describe 'DELETE #destroy' do
+    let!(:question) { create(:question) }
+
+    subject { delete :destroy, params: { id: question } }
+
     describe 'Authorized user' do
       sign_in_user
 
       context 'author' do
-        let(:question) { create(:question, author: @user) }
-
-        before { question }
+        before { question.update(author: @user) }
 
         it 'delete question' do
-          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+          expect { subject }.to change(Question, :count).by(-1)
         end
 
         it 'render index views' do
-          delete :destroy, params: { id: question }
+          subject
           expect(response).to redirect_to questions_path
         end
       end
 
       context 'not author' do
         it 'can not delete question' do
-          question = create(:question)
-          expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+          expect { subject }.to_not change(Question, :count)
         end
       end
     end
 
     describe 'Non-authorized user' do
-      let(:question) { create(:question) }
-
-      before { question }
-
       it 'can not delete question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+        expect { subject }.to_not change(Question, :count)
       end
 
       it 'redirect_to log in' do
-        delete :destroy, params: { id: question }
+        subject
         expect(response).to redirect_to new_user_session_path
       end
     end
   end
 
   describe 'PATCH #update' do
+    let!(:question) { create(:question) }
+    let(:parameters) do
+      { id: question, format: :js, question: { title: 'Changed title', body: 'Changed body' } }
+    end
+
+    subject { patch :update, params: parameters }
+
     describe 'Authenticated user' do
       sign_in_user
 
       context 'can edit his question' do
-        let(:question) { create(:question, author: @user) }
+        before { question.update(author: @user) }
 
         context 'with valid data' do
-          before do
-            patch :update, params: { id: question, format: :js,
-                                     question: { title: 'Changed title', body: 'Changed body' } }
-          end
+          before { subject }
 
           it 'changed question attributes' do
             question.reload
@@ -169,9 +168,9 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         context 'with invalid data' do
-          before do
-            patch :update, params: { id: question, format: :js, question: { title: nil } }
-          end
+          let(:parameters) { { id: question, format: :js, question: { title: nil } } }
+
+          before { subject }
 
           it 'not changed question attributes' do
             question.reload
@@ -183,17 +182,11 @@ RSpec.describe QuestionsController, type: :controller do
             expect(response).to render_template :update
           end
         end
-
       end
 
       context 'can not edit not his question' do
         it 'can not update question' do
-          question = create(:question)
-          patch :update,
-            params: { id: question, format: :js,
-                      question: { title: 'Change title', body: 'Change body' } }
-          question.reload
-
+          subject
           expect(question.title).to_not eq 'Change title'
           expect(question.body).to_not eq 'Change body'
         end
@@ -203,11 +196,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     describe 'Unauthenticated user' do
       it 'get 401 status Unauthorized' do
-        question = create(:question)
-
-        patch :update,
-          params: { id: question, format: :js,
-                    question: { title: 'Change title', body: 'Change body' } }
+        subject
         expect(response.status).to eq 401
       end
     end
