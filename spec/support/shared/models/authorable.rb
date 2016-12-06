@@ -1,3 +1,3 @@
-shared_examples_for 'authorable' do
+shared_examples_for 'Authorable' do
   it { should belong_to(:author) }
 end

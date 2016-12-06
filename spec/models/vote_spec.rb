@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Vote, type: :model do
+  it_behaves_like 'Authorable'
+
   it { should belong_to :votable }
-  it { should belong_to :author }
 
   it { should validate_inclusion_of(:votable_type).in_array(%w(Question Answer)) }
   it { should validate_inclusion_of(:value).in_array([-1, 1]) }
