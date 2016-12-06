@@ -43,7 +43,7 @@ describe 'Answers API', type: :request do
       let!(:comment) { create(:comment, commentable: answer) }
       let!(:attachment) { create(:attachment, attachable: answer) }
 
-      before { get api_v1_answer_path(answer), params: { format: :json, access_token: access_token.token } }
+      before { do_request(:get, url, { access_token: access_token.token }) }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -110,7 +110,7 @@ describe 'Answers API', type: :request do
       end
 
       context 'with invalid answer params' do
-        before { post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:invalid_answer), format: :json, access_token: access_token.token } }
+        before { do_request(:post, url, { answer: attributes_for(:invalid_answer), access_token: access_token.token }) }
 
         it "returns 422 status code" do
           expect(response).to have_http_status 422

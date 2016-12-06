@@ -2,23 +2,16 @@ require 'rails_helper'
 
 describe 'Profiles API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/me', params: { format: :json }
-        expect(response).to have_http_status 401
-      end
+    let(:http_method) { :get }
+    let(:url) { me_api_v1_profiles_path }
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles/me', params: { format: :json, access_token: '123456' }
-        expect(response).to have_http_status 401
-      end
-    end
+    it_behaves_like "API unauthorized"
 
     context 'authorized' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-      before { get '/api/v1/profiles/me', params: { format: :json, access_token: access_token.token } }
+      before { do_request(:get, url, { access_token: access_token.token }) }
 
       it 'returns 200 status' do
         expect(response).to be_success
@@ -39,17 +32,10 @@ describe 'Profiles API' do
   end
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles', params: { format: :json }
-        expect(response).to have_http_status 401
-      end
+    let(:http_method) { :get }
+    let(:url) { api_v1_profiles_path }
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/profiles', params: { format: :json, access_token: '123456' }
-        expect(response).to have_http_status 401
-      end
-    end
+    it_behaves_like "API unauthorized"
 
     context 'authorized' do
       let!(:john) { create(:user) }
@@ -57,7 +43,7 @@ describe 'Profiles API' do
       let!(:tom) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: john.id) }
 
-      before { get '/api/v1/profiles', params: { format: :json, access_token: access_token.token } }
+      before { do_request(:get, url, { access_token: access_token.token }) }
 
       it 'returns 200 status' do
         expect(response).to be_success
