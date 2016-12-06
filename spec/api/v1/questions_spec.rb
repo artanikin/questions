@@ -41,9 +41,13 @@ describe 'Questions API', type: :request do
       let(:access_token) { create(:access_token) }
       let!(:comment) { create(:comment, commentable: question) }
       let!(:attachment) { create(:attachment, attachable: question) }
-      let!(:status_code) { 200 }
+      let(:json_root_path) { "question" }
 
       before { get api_v1_question_path(question), params: { format: :json, access_token: access_token.token } }
+
+      it 'returns 200 status code' do
+        expect(response).to be_success
+      end
 
       it 'returns question' do
         expect(response.body).to have_json_path('question')
@@ -55,27 +59,8 @@ describe 'Questions API', type: :request do
         end
       end
 
-      context 'comments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path('question/comments')
-        end
-
-        %w(id body created_at updated_at commentable_id commentable_type author_id).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).to be_json_eql(comment.send(attr.to_sym).to_json).at_path("question/comments/0/#{attr}")
-          end
-        end
-      end
-
-      context 'attachments' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path('question/attachments')
-        end
-
-        it "contains #{attr}" do
-          expect(response.body).to be_json_eql(attachment.file.url.to_json).at_path("question/attachments/0/url")
-        end
-      end
+      it_behaves_like "API comments"
+      it_behaves_like "API attachments"
     end
   end
 
