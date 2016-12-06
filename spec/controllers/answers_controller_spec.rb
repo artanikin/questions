@@ -126,7 +126,7 @@ RSpec.describe AnswersController, type: :controller do
         end
 
         context "with invalid attributes" do
-          let(:parameters) { { id: answer.id, format: :js, answer: { body: ""} } }
+          let(:parameters) { { id: answer.id, format: :js, answer: { body: "" } } }
 
           before { subject }
 
