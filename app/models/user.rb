@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :questions, foreign_key: :author_id, dependent: :destroy
   has_many :answers, foreign_key: :author_id, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscribes, foreign_key: :author_id,  dependent: :destroy
 
   scope :without, -> (id) { where("id != ?", id) }
 

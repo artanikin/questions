@@ -1,6 +1,7 @@
 .question id="question_#{question.id}" data-question-id="#{question.id}"
   .question-show
     = render 'shared/votes_panel', obj: question
+    = link_to "Subscribe", "#"
     - if can?(:update, question)
       = link_to 'Edit', '', class: 'edit-question-link btn btn-primary', data: { question_id: question.id }
       = render 'form', question: question, remote: true

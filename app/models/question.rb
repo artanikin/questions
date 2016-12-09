@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   include Commentable
 
   has_many :answers, -> { order('best desc') }, dependent: :destroy
+  has_many :subscribes, dependent: :destroy
 
   validates :title, :body, presence: true
   validates :title, :body, length: { minimum: 10 }
