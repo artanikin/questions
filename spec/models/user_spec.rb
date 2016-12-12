@@ -23,6 +23,40 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#has_subscribe?" do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    it "user has subscribe to question" do
+      user.subscribes.create(question_id: question.id)
+      expect(user.has_subscribe?(question)).to be_truthy
+    end
+
+    it "user has not subscribe to question" do
+      expect(user.has_subscribe?(question)).to be_falsey
+    end
+  end
+
+  describe "#subscribe" do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    it "create subscribe for question" do
+      expect { user.subscribe(question) }.to change(user.subscribes, :count).by(1)
+    end
+  end
+
+  describe "#get_subscribe" do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    it "get subscribe for question" do
+      subscribe = user.subscribe(question)
+
+      expect(user.get_subscribe(question)).to eq(subscribe)
+    end
+  end
+
   describe '.find_for_oauth' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }

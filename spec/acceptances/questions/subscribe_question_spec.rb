@@ -1,4 +1,4 @@
-require 'acceptance_helper'
+require "acceptance_helper"
 
 feature "Subsribe to question", %(
   In oreder to get notification for new answers
@@ -16,28 +16,47 @@ feature "Subsribe to question", %(
     end
   end
 
-  describe "Authenticate user" do
-    before do
-      sign_in(user)
-      visit question_path(question)
-    end
+  feature "Authenticate user", :js do
+    before { sign_in(user) }
 
-    describe "not yet subscribe question" do
+    feature "not yet subscribe question", :js do
       scenario "can subscribe to question" do
+        visit question_path(question)
+
         within ".question" do
           click_link "Subscribe"
 
           expect(page).to have_link("Unsubscribe")
-          expect(page).to have_content("You successfull subscribe to question")
-          expect(page).to have_link("Subscribe")
+          expect(page).to_not have_link("Subscribe")
         end
+        expect(page).to have_content("You successfully subscribe to question")
       end
     end
 
-    describe "already subscribe to question" do
+    feature "already subscribe to question" do
       scenario "can not subscribe to question" do
-        expect(page).to_not have_link("Subscribe")
-        expect(page).to have_link("Unsubscribe")
+        user.subscribes.create(question_id: question.id)
+
+        visit question_path(question)
+
+        within ".question" do
+          expect(page).to_not have_link("Subscribe")
+          expect(page).to have_link("Unsubscribe")
+        end
+      end
+
+      scenario "can unsubscribe to question", :js do
+        user.subscribes.create(question_id: question.id)
+
+        visit question_path(question)
+
+        within ".question" do
+          click_link "Unsubscribe"
+
+          expect(page).to have_link("Subscribe")
+          expect(page).to_not have_link("Unsubscribe")
+        end
+        expect(page).to have_content("You successfully unsubscribe to question")
       end
     end
   end

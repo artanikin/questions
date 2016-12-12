@@ -63,4 +63,12 @@ class User < ApplicationRecord
       super
     end
   end
+
+  def has_subscribe?(question)
+    subscribes.where(question_id: question).any?
+  end
+
+  def get_subscribe(question)
+    subscribes.where(question_id: question).first
+  end
 end
