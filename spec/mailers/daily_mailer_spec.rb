@@ -1,12 +1,13 @@
 require "rails_helper"
 
-RSpec.describe DailyMailerMailer, type: :mailer do
+RSpec.describe DailyMailer, type: :mailer do
   describe "digest" do
-    let(:mail) { DailyMailerMailer.digest }
+    let(:user) { create(:user) }
+    let(:mail) { DailyMailer.digest(user) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Digest")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq([user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 
