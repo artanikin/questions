@@ -9,4 +9,12 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
   validates :title, :body, length: { minimum: 10 }
+
+  after_create :subscribe_author
+
+  private
+
+  def subscribe_author
+    self.subscribes.create(author_id: self.author_id)
+  end
 end
