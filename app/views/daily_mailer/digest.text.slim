@@ -1,3 +1,9 @@
 ' Daily digest of new questions
-
-' Questions list
+= "\r\n"
+= "\r\n"
+- @questions.each do |question|
+  = question.title
+  = "\r\n"
+  = question_url(question)
+  = "\r\n"
+  = "\r\n"

@@ -12,6 +12,8 @@ class Question < ApplicationRecord
 
   after_create :subscribe_author
 
+  scope :last_day, -> {  where("created_at >= ?", (Date.today - 1.day).to_time) }
+
   private
 
   def subscribe_author
