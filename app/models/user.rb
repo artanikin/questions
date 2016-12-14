@@ -75,10 +75,10 @@ class User < ApplicationRecord
   def self.send_daily_digest
     questions = Question.last_day.to_a
 
-    # unless questions.any?
-      find_each.each do |user|
+    unless questions.blank?
+      find_each do |user|
         DailyMailer.digest(user, questions).deliver_later
       end
-    # end
+    end
   end
 end
