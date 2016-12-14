@@ -33,4 +33,23 @@ RSpec.describe Answer, type: :model do
       expect(answer2.reload).to be_best
     end
   end
+
+  describe ".send_notification" do
+    let(:question) { create(:question) }
+    let!(:subscribes) { create_list(:subscribe, 2, question: question) }
+    subject { build(:answer, question: question) }
+
+    it "should send notification to all subscribe users after create answer" do
+      question.subscribes do |subscribe|
+        expect(NotifySubscribedUsersJob).to receive(:perform).with(subject).and_call_original
+      end
+      subject.save!
+    end
+
+    it "should not send notification after update answer" do
+      subject.save!
+      expect(subject).to_not receive(:notify_subscribed_users)
+      subject.update(body: "This is updated body")
+    end
+  end
 end
