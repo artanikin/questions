@@ -221,14 +221,4 @@ RSpec.describe User, type: :model do
       expect(user.reload.email).to eq params[:email]
     end
   end
-
-  describe ".send_daily_digest" do
-    let(:users) { create_list(:user, 2) }
-    let(:questions) { create_list(:question, 2, author: users.first) }
-
-    it "should send daily digest to all users" do
-      users.each { |u| expect(DailyMailer).to receive(:digest).with(u, questions).and_call_original }
-      User.send_daily_digest
-    end
-  end
 end

@@ -71,14 +71,4 @@ class User < ApplicationRecord
   def get_subscribe(question)
     subscribes.where(question_id: question).first
   end
-
-  def self.send_daily_digest
-    questions = Question.last_day.to_a
-
-    unless questions.blank?
-      find_each do |user|
-        DailyMailer.digest(user, questions).deliver_later
-      end
-    end
-  end
 end

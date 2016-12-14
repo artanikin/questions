@@ -2,6 +2,12 @@ class DailyDigestJob < ApplicationJob
   queue_as :mailers
 
   def perform
-    User.send_daily_digest
+    questions = Question.last_day
+
+    unless questions.blank?
+      User.find_each do |user|
+        DailyMailer.digest(user, questions).deliver
+      end
+    end
   end
 end
