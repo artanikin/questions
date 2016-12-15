@@ -5,6 +5,7 @@ feature "Subsribe to question", %(
   As an user signed by the question
   I'd like to be able to get notification of new replies for question
 ) do
+
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
@@ -34,11 +35,12 @@ feature "Subsribe to question", %(
     end
 
     feature "already subscribe to question" do
-      before { user.subscribes.create(question_id: question.id) }
+      before do
+        user.subscribes.create(question_id: question.id)
+        visit question_path(question)
+      end
 
       scenario "can not subscribe to question" do
-        visit question_path(question)
-
         within ".question" do
           expect(page).to_not have_link("Subscribe")
           expect(page).to have_link("Unsubscribe")
@@ -46,8 +48,6 @@ feature "Subsribe to question", %(
       end
 
       scenario "can unsubscribe to question", :js do
-        visit question_path(question)
-
         within ".question" do
           click_link "Unsubscribe"
 
