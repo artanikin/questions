@@ -65,10 +65,10 @@ class User < ApplicationRecord
   end
 
   def has_subscribe?(question)
-    subscribes.where(question_id: question).any?
+    subscribes.where(question: question).any?
   end
 
   def get_subscribe(question)
-    subscribes.where(question_id: question).first
+    subscribes.where(question: question).first
   end
 end

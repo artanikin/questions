@@ -5,8 +5,8 @@ class NotifySubscribedUsersJob < ApplicationJob
     subscribes = answer.question.subscribes
 
     unless subscribes.blank?
-      subscribes.each do |subscribe|
-        NotifySubscribersMailer.notify(subscribe.author, answer).deliver
+      subscribes.find_each do |subscribe|
+        NotifySubscribersMailer.notify(subscribe.author, answer).deliver_now
       end
     end
   end

@@ -6,7 +6,7 @@ class DailyDigestJob < ApplicationJob
 
     unless questions.blank?
       User.find_each do |user|
-        DailyMailer.digest(user, questions).deliver
+        DailyMailer.digest(user, questions).deliver_now
       end
     end
   end
