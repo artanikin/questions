@@ -65,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def has_subscribe?(question)
-    subscribes.where(question: question).any?
+    subscribes.where(question: question).exists?
   end
 
   def get_subscribe(question)
