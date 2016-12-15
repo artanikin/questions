@@ -34,9 +34,9 @@ feature "Subsribe to question", %(
     end
 
     feature "already subscribe to question" do
-      scenario "can not subscribe to question" do
-        user.subscribes.create(question_id: question.id)
+      before { user.subscribes.create(question_id: question.id) }
 
+      scenario "can not subscribe to question" do
         visit question_path(question)
 
         within ".question" do
@@ -46,8 +46,6 @@ feature "Subsribe to question", %(
       end
 
       scenario "can unsubscribe to question", :js do
-        user.subscribes.create(question_id: question.id)
-
         visit question_path(question)
 
         within ".question" do

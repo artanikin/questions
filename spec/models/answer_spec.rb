@@ -10,7 +10,10 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of(:body) }
   it { should validate_length_of(:body).is_at_least(10) }
-  it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
+  it do
+    subject.question = build(:question)
+    should validate_uniqueness_of(:best).scoped_to(:question_id)
+  end
 
   describe '#mark_as_best' do
     let(:question) { create(:question) }
