@@ -7,7 +7,7 @@ class SubscribesController < ApplicationController
   respond_to :js
 
   def create
-    respond_with(@subscribe = @current_user.subscribes.create!(question: @question))
+    respond_with(@subscribe = @current_user.subscribes.create(question: @question))
   end
 
   def destroy
