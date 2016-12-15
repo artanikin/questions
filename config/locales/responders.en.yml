@@ -13,3 +13,10 @@ en:
     answers:
       best:
         notice: '%{resource_name} mark as Best'
+    subscribes:
+      create:
+        notice: "You successfully subscribe to question"
+        alert: "You can not subscribe to question"
+      destroy:
+        notice: "You successfully unsubscribe to question"
+        alert: "You can not unsubscribe to question"
