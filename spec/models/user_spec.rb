@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscribes).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -19,6 +20,30 @@ RSpec.describe User, type: :model do
     it 'user is not the not author of the question' do
       question = create(:question)
       expect(user).to_not be_author(question)
+    end
+  end
+
+  describe "#has_subscribe?" do
+    let!(:user) { create(:user) }
+    let!(:question) { create(:question) }
+
+    it "user has subscribe to question" do
+      user.subscribes.create(question_id: question.id)
+      expect(user.has_subscribe?(question)).to be_truthy
+    end
+
+    it "user has not subscribe to question" do
+      expect(user.has_subscribe?(question)).to be_falsey
+    end
+  end
+
+  describe "#get_subscribe" do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    it "get subscribe for question" do
+      subscribe = user.subscribes.create(question_id: question.id)
+      expect(user.get_subscribe(question)).to eq(subscribe)
     end
   end
 

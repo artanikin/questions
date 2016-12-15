@@ -6,6 +6,7 @@
 
 /public/uploads/
 .idea/
+dump.rdb
 
 # Ignore bundler config.
 /.bundle

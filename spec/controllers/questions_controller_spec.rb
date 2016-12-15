@@ -67,6 +67,10 @@ RSpec.describe QuestionsController, type: :controller do
           expect { subject }.to change(@user.questions, :count).by(1)
         end
 
+        it "subscribe author to question" do
+          expect { subject }.to change(@user.subscribes, :count).by(1)
+        end
+
         it "redirect to show view" do
           subject
           expect(response).to redirect_to question_path(assigns(:question))
@@ -160,6 +164,7 @@ RSpec.describe QuestionsController, type: :controller do
             question.reload
             expect(question.title).to eq "Changed title"
             expect(question.body).to eq "Changed body"
+            expect(@user.subscribes).to be_empty
           end
 
           it "render to update template" do

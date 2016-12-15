@@ -1,0 +1,5 @@
+$('#flash').replaceWith("<%= j render partial: 'shared/flash_message' %>");
+
+<% unless @subscribe.persisted? %>
+  $("#unsubscribe_btn").replaceWith("<%= j link_to "Subscribe", question_subscribes_path(question_id: @subscribe.question_id), id: "subscribe_btn", class: "btn btn-primary", remote: true, method: :post %>")
+<% end %>

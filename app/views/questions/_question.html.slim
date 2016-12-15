@@ -1,6 +1,13 @@
 .question id="question_#{question.id}" data-question-id="#{question.id}"
   .question-show
     = render 'shared/votes_panel', obj: question
+
+    - if current_user && current_user.has_subscribe?(question)
+      = link_to "Unsubscribe", subscribe_path(current_user.get_subscribe(question)), remote: true, method: :delete, id: "unsubscribe_btn", class: "btn btn-primary"
+    - else
+      - if can?(:create, Subscribe)
+        = link_to "Subscribe", question_subscribes_path(question), remote: true, method: :post, id: "subscribe_btn", class: "btn btn-primary"
+
     - if can?(:update, question)
       = link_to 'Edit', '', class: 'edit-question-link btn btn-primary', data: { question_id: question.id }
       = render 'form', question: question, remote: true
