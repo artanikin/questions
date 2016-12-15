@@ -39,7 +39,7 @@ RSpec.describe Answer, type: :model do
     subject { build(:answer, question: question) }
 
     it "should send notification to all subscribe users after create answer" do
-      question.subscribes do |subscribe|
+      question.subscribes do
         expect(NotifySubscribedUsersJob).to receive(:perform).with(subject).and_call_original
       end
       subject.save!
