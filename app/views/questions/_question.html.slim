@@ -2,10 +2,10 @@
   .question-show
     = render 'shared/votes_panel', obj: question
 
-    - if can?(:create, Subscribe)
-      - if current_user.has_subscribe?(question)
-        = link_to "Unsubscribe", subscribe_path(current_user.get_subscribe(question)), remote: true, method: :delete, id: "unsubscribe_btn", class: "btn btn-primary"
-      - else
+    - if current_user && current_user.has_subscribe?(question)
+      = link_to "Unsubscribe", subscribe_path(current_user.get_subscribe(question)), remote: true, method: :delete, id: "unsubscribe_btn", class: "btn btn-primary"
+    - else
+      - if can?(:create, Subscribe)
         = link_to "Subscribe", question_subscribes_path(question), remote: true, method: :post, id: "subscribe_btn", class: "btn btn-primary"
 
     - if can?(:update, question)
