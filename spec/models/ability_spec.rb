@@ -28,6 +28,7 @@ describe Ability do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscribe }
 
     it { should be_able_to :update, create(:question, author: user), author: user }
     it { should_not be_able_to :update, create(:question), author: user }
@@ -43,6 +44,9 @@ describe Ability do
 
     it { should be_able_to :destroy, create(:attachment, attachable: create(:question, author: user)) }
     it { should_not be_able_to :destroy, create(:attachment, attachable: create(:question)) }
+
+    it { should be_able_to :destroy, create(:subscribe, author: user) }
+    it { should_not be_able_to :destroy, create(:subscribe) }
 
     it { should be_able_to :best, create(:answer, question: create(:question, author: user)) }
     it { should_not be_able_to :best, create(:answer, question: create(:question)) }
