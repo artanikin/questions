@@ -1,0 +1,13 @@
+h1 Search
+
+hr
+
+= render "form", form_class: "form-inline"
+
+hr
+
+.searches-list
+  - if @items.blank?
+    Search No results
+  - else
+    = searches_elements(@items)

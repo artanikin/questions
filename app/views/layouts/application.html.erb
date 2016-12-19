@@ -21,7 +21,6 @@
             </button>
             <%= link_to 'Questions', root_path, class: 'navbar-brand' %>
           </div>
-
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
               <% if user_signed_in? %>
@@ -30,6 +29,7 @@
                 <li><%= link_to 'Sign in', new_user_session_path %></li>
               <% end %>
             </ul>
+            <%= render "searches/form", form_class: "navbar-form navbar-right" %>
           </div>
         </div>
     </nav>

@@ -24,3 +24,5 @@ dump.rdb
 # Ignore Byebug command history file.
 .byebug_history
 config/database.yml
+config/*.sphinx.conf
+db/sphinx
