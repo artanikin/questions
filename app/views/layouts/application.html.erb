@@ -22,12 +22,6 @@
             <%= link_to 'Questions', root_path, class: 'navbar-brand' %>
           </div>
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <%= form_tag searches_path, method: :get, class: "navbar-form navbar-right" do %>
-              <div class="form-group">
-                <%= text_field_tag :q, nil, class: "form-control", placeholder: "Search" %>
-              </div>
-              <%= submit_tag "Search", class: "btn btn-default" %>
-            <% end %>
             <ul class="nav navbar-nav navbar-right">
               <% if user_signed_in? %>
                 <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
@@ -35,6 +29,7 @@
                 <li><%= link_to 'Sign in', new_user_session_path %></li>
               <% end %>
             </ul>
+            <%= render "searches/form", form_class: "navbar-form navbar-right" %>
           </div>
         </div>
     </nav>

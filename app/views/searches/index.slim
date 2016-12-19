@@ -2,13 +2,7 @@ h1 Search
 
 hr
 
-= form_tag searches_path, method: :get, class: "form-inline" do
-  .form-group
-    => label_tag :object, "Search by:"
-    => select_tag :object, options_for_select(Search.items_for_select, params[:object]), class: "form-control"
-  .form-group
-    = text_field_tag :q, params[:q], class: "form-control", placeholder: "Search"
-  = submit_tag "Search", class: "btn btn-primary"
+= render "form", form_class: "form-inline"
 
 hr
 

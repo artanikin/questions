@@ -1,0 +1,7 @@
+= form_tag searches_path, method: :get, class: form_class do
+  .form-group
+    => label_tag :object, "Search by:"
+    => select_tag :object, options_for_select(Search.items_for_select, params[:object]), class: "form-control"
+  .form-group
+    = search_field_tag :q, params[:q], class: "form-control", placeholder: "Search"
+  = submit_tag "Search", class: "btn btn-primary"

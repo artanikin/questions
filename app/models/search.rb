@@ -1,4 +1,4 @@
-class Search < ApplicationRecord
+class Search
   def self.search(q, object="all")
     if available_objects.include?(object)
       object.classify.constantize.search q
@@ -17,7 +17,7 @@ class Search < ApplicationRecord
       ["Questions", "question"],
       ["Answers", "answer"],
       ["Comments", "comment"],
-      ["Author", "author"]
+      ["Author", "user"]
     ]
   end
 end
