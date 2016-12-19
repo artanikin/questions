@@ -13,6 +13,11 @@ RSpec.describe Search, type: :model do
       expect(ThinkingSphinx).to receive(:search).with("")
       Search.search("", "all")
     end
+
+    it "not valid value" do
+      expect(ThinkingSphinx).to receive(:search).with("")
+      Search.search("", "not_valid_value")
+    end
   end
 
   describe ".items_for_select" do
