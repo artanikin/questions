@@ -16,12 +16,12 @@ feature 'User register', %(
     fill_in 'Password confirmation', with: 'pass123'
     click_on 'Sign up'
 
-    expect(page).to have_content 'Toggle navigation Questions Sign in A message with a confirmation link has been sent to your email'
     expect(current_path).to eq root_path
 
     open_email(email)
     current_email.click_link 'Confirm my account'
 
+    expect(page).to have_content "Sign out"
     expect(page).to have_content 'Your email address has been successfully confirmed'
   end
 
