@@ -24,8 +24,6 @@ shared_examples_for "Add attachments" do
 
     click_on "#{submit_btn}"
 
-    save_and_open_page
-
     within "#{attachment_block}" do
       expect(page).to have_link "rails_helper.rb", href: "/uploads/attachment/file/1/rails_helper.rb"
       expect(page).to have_link "spec_helper.rb", href: "/uploads/attachment/file/2/spec_helper.rb"
