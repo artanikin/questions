@@ -1,4 +1,4 @@
-dist: trusty
+dist: trusty-692-1323f09
 sudo: required
 
 language: ruby
