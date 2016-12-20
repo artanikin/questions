@@ -23,6 +23,11 @@ dump.rdb
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# config files
 config/database.yml
+config/database.travis.yml
 config/*.sphinx.conf
 db/sphinx
+config/secrets.travis.yml
+config/secrets.yml
