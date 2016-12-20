@@ -9,10 +9,10 @@ set :deploy_to, "/home/deployer/questions"
 set :deploy_user, "deployer"
 
 # Default value for :linked_files is []
-append :linked_files, %w(config/database.yml config/secrets.yml)
+append :linked_files, "config/database.yml", ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, %w(log tmp/pids tmp/cache tmp/sockets public/system)
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/uploads"
 
 namespace :deploy do
   desc "Restart application"
