@@ -30,4 +30,3 @@ config/database.travis.yml
 config/*.sphinx.conf
 db/sphinx
 config/secrets.travis.yml
-config/secrets.yml
