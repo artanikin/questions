@@ -73,7 +73,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano-unicorn', require: false
+  gem 'capistrano3-unicorn', require: false
   gem "highline"
 end
 
