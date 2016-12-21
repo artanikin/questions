@@ -9,6 +9,8 @@ require "capistrano/rails"
 require "capistrano/sidekiq"
 require "whenever/capistrano"
 require "thinking_sphinx/capistrano"
+require "thinking_sphinx/capistrano"
+require "capistrano3/unicorn"
 
 set :rbenv_type, :user
 set :rbenv_ruby, "2.3.3"

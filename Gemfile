@@ -36,6 +36,7 @@ gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
+gem 'unicorn'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -72,6 +73,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rbenv', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano-unicorn', require: false
   gem "highline"
 end
 
