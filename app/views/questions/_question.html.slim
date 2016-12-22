@@ -12,8 +12,9 @@
       = link_to 'Edit', '', class: 'edit-question-link btn btn-primary', data: { question_id: question.id }
       = render 'form', question: question, remote: true
 
-    h1= question.title
-    p= question.body
-    = render partial: 'shared/nested_form/attachments', locals: { obj: question }
+    - cache question do
+      h1= question.title
+      p= question.body
+      = render partial: 'shared/nested_form/attachments', locals: { obj: question }
 
   = render 'comments/comments', commentable: question
