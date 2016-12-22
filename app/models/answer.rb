@@ -4,7 +4,7 @@ class Answer < ApplicationRecord
   include Votable
   include Commentable
 
-  belongs_to :question
+  belongs_to :question, touch: true
 
   validates :body, presence: true
   validates :body, length: { minimum: 10 }

@@ -2,7 +2,8 @@
   .comments-list
     - commentable.comments.each do |comment|
       - if comment.persisted?
-        .comment= comment.body
+        - cache comment do
+          .comment= comment.body
 
   .comment-new
     - if can?(:create, Comment)

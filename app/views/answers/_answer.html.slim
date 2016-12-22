@@ -21,7 +21,8 @@
               .form-group
                 = f.submit 'Save', class: 'btn btn-primary'
 
-    p= answer.body
-    = render partial: 'shared/nested_form/attachments', locals: { obj: answer }
+    - cache answer do
+      p= answer.body
+      = render partial: 'shared/nested_form/attachments', locals: { obj: answer }
 
-    = render 'comments/comments', commentable: answer
+      = render 'comments/comments', commentable: answer

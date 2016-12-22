@@ -9,7 +9,7 @@ RSpec.describe DailyMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq("Daily digest of new questions")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["info@questions.com"])
+      expect(mail.from).to eq(["anikinartyom@gmail.com"])
     end
 
     it "renders the body" do
