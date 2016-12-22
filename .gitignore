@@ -26,7 +26,5 @@ dump.rdb
 
 # config files
 config/database.yml
-config/database.travis.yml
 config/*.sphinx.conf
 db/sphinx
-config/secrets.travis.yml
